@@ -13,3 +13,4 @@ par(mar=c(5,18,2,2))
 barplot(sort(table(table$Category)),
         horiz = T, las = 1)
 par(mar=c(5,4,2,2))
+
