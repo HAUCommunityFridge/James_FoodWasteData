@@ -1,7 +1,7 @@
 ## HEADER
 # who: James S and Ed H
 # what: Food waste data
-# when: Last edited 2024-06-25 10:41
+# when: Last edited 2024-06-25 12:02
 
 # Source the data preparation script & load libraries
 source("scripts/data.R")
@@ -36,7 +36,7 @@ category_counts <- cleaned_data %>%
 
 # Create a bar plot of the Category column
 ggplot(category_counts, aes(x = reorder(Category, -count), y = count)) +
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", fill = "skyblue", color = "black") +
   theme_minimal() +
   labs(title = "Distribution of Categories", x = "Category", y = "Count") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -59,6 +59,17 @@ daily_totals <- cleaned_data %>%
 print("Daily Totals:")
 print(daily_totals)
 
+# Create a line plot for daily totals
+ggplot(daily_totals, aes(x = Date, y = Total_Quantity, color = Category, group = Category)) +
+  geom_line() +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Daily Total Quantity by Category", x = "Date", y = "Total Quantity") +
+  theme(legend.position = "bottom")
+
+# Save the plot
+ggsave("plots/daily_totals.png")
+
 # Aggregate data to get total quantity per week for each category
 weekly_totals <- cleaned_data %>%
   group_by(Week = floor_date(Date.Time, "week"), Category) %>%
@@ -68,6 +79,17 @@ weekly_totals <- cleaned_data %>%
 print("Weekly Totals:")
 print(weekly_totals)
 
+# Create a line plot for weekly totals
+ggplot(weekly_totals, aes(x = Week, y = Total_Quantity, color = Category, group = Category)) +
+  geom_line() +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Weekly Total Quantity by Category", x = "Week", y = "Total Quantity") +
+  theme(legend.position = "bottom")
+
+# Save the plot
+ggsave("plots/weekly_totals.png")
+
 # Save the daily and weekly totals to CSV files
 write.csv(daily_totals, "data/daily_totals.csv", row.names = FALSE)
 write.csv(weekly_totals, "data/weekly_totals.csv", row.names = FALSE)
@@ -75,7 +97,7 @@ write.csv(weekly_totals, "data/weekly_totals.csv", row.names = FALSE)
 # Create a histogram of the 'Quantity' column if there are valid (non-NA, non-zero) values
 if (any(!is.na(cleaned_data$Quantity) & cleaned_data$Quantity > 0)) {
   ggplot(cleaned_data, aes(x = Quantity)) +
-    geom_histogram(binwidth = 100, fill = "blue", color = "black") +
+    geom_histogram(binwidth = 100, fill = "skyblue", color = "black") +
     theme_minimal() +
     labs(title = "Histogram of Quantity", x = "Quantity", y = "Frequency")
   
@@ -88,9 +110,10 @@ if (any(!is.na(cleaned_data$Quantity) & cleaned_data$Quantity > 0)) {
 # Assuming there are two numerical columns 'NET.Sales' and 'TOTAL.Sales'
 # Create a scatter plot
 ggplot(cleaned_data, aes(x = NET.Sales, y = TOTAL.Sales)) +
-  geom_point() +
+  geom_point(color = "skyblue") +
   theme_minimal() +
   labs(title = "Scatter Plot of NET Sales vs TOTAL Sales", x = "NET Sales", y = "TOTAL Sales")
 
 # Save the plot
 ggsave("plots/net_total_sales_scatter_plot.png")
+
