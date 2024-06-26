@@ -1,7 +1,7 @@
 ## HEADER
 # who: James S and Ed H
 # what: Food waste data
-# when: Last edited 2024-06-25 12:02
+# when: Last edited 2024-06-26 15:02
 
 # Source the data preparation script & load libraries
 source("scripts/data.R")
@@ -53,7 +53,7 @@ cleaned_data$Date.Time <- as.POSIXct(cleaned_data$Date.Time, format="%d/%m/%Y %H
 # Aggregate data to get total quantity per day for each category
 daily_totals <- cleaned_data %>%
   group_by(Date = as.Date(Date.Time), Category) %>%
-  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE))
+  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE), .groups = 'drop')
 
 # Print daily totals
 print("Daily Totals:")
@@ -61,19 +61,20 @@ print(daily_totals)
 
 # Create a line plot for daily totals
 ggplot(daily_totals, aes(x = Date, y = Total_Quantity, color = Category, group = Category)) +
-  geom_line() +
-  geom_point() +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
   theme_minimal() +
   labs(title = "Daily Total Quantity by Category", x = "Date", y = "Total Quantity") +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom", legend.title = element_blank()) +
+  scale_color_brewer(palette = "Set3")
 
 # Save the plot
-ggsave("plots/daily_totals.png")
+ggsave("plots/daily_totals.png", width = 10, height = 6)
 
 # Aggregate data to get total quantity per week for each category
 weekly_totals <- cleaned_data %>%
   group_by(Week = floor_date(Date.Time, "week"), Category) %>%
-  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE))
+  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE), .groups = 'drop')
 
 # Print weekly totals
 print("Weekly Totals:")
@@ -81,14 +82,15 @@ print(weekly_totals)
 
 # Create a line plot for weekly totals
 ggplot(weekly_totals, aes(x = Week, y = Total_Quantity, color = Category, group = Category)) +
-  geom_line() +
-  geom_point() +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
   theme_minimal() +
   labs(title = "Weekly Total Quantity by Category", x = "Week", y = "Total Quantity") +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom", legend.title = element_blank()) +
+  scale_color_brewer(palette = "Set3")
 
 # Save the plot
-ggsave("plots/weekly_totals.png")
+ggsave("plots/weekly_totals.png", width = 10, height = 6)
 
 # Save the daily and weekly totals to CSV files
 write.csv(daily_totals, "data/daily_totals.csv", row.names = FALSE)
@@ -102,7 +104,7 @@ if (any(!is.na(cleaned_data$Quantity) & cleaned_data$Quantity > 0)) {
     labs(title = "Histogram of Quantity", x = "Quantity", y = "Frequency")
   
   # Save the plot
-  ggsave("plots/quantity_histogram.png")
+  ggsave("plots/quantity_histogram.png", width = 10, height = 6)
 } else {
   print("No valid data for Quantity histogram.")
 }
@@ -115,5 +117,5 @@ ggplot(cleaned_data, aes(x = NET.Sales, y = TOTAL.Sales)) +
   labs(title = "Scatter Plot of NET Sales vs TOTAL Sales", x = "NET Sales", y = "TOTAL Sales")
 
 # Save the plot
-ggsave("plots/net_total_sales_scatter_plot.png")
+ggsave("plots/net_total_sales_scatter_plot.png", width = 10, height = 6)
 
