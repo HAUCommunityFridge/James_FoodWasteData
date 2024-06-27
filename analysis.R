@@ -1,7 +1,7 @@
 ## HEADER
 # who: James S and Ed H
 # what: Food waste data
-# when: Last edited 2024-06-26 15:02
+# when: Last edited 2024-06-27 12:37
 
 # Source the data preparation script & load libraries
 source("scripts/data.R")
@@ -14,6 +14,29 @@ if (!dir.exists("plots")) {
 
 # Load the cleaned data
 cleaned_data <- read.csv("data/cleaned_data.csv")
+
+# Function to update "Other" categories based on ProductId
+update_category <- function(data) {
+  # Create a lookup table for ProductId with non-"Other" categories
+  lookup_table <- data %>%
+    filter(Category != "Other") %>%
+    select(ProductId, Category) %>%
+    distinct()
+  
+  # Join the lookup table with the original data
+  updated_data <- data %>%
+    left_join(lookup_table, by = "ProductId", suffix = c("", "_new")) %>%
+    mutate(Category = ifelse(Category == "Other" & !is.na(Category_new), Category_new, Category)) %>%
+    select(-Category_new)
+  
+  return(updated_data)
+}
+
+# Update the Category column in the cleaned data
+cleaned_data <- update_category(cleaned_data)
+
+# Save the updated cleaned data
+write.csv(cleaned_data, "data/cleaned_data_updated.csv", row.names = FALSE)
 
 # Basic data analysis
 summary(cleaned_data)
@@ -66,7 +89,7 @@ ggplot(daily_totals, aes(x = Date, y = Total_Quantity, color = Category, group =
   theme_minimal() +
   labs(title = "Daily Total Quantity by Category", x = "Date", y = "Total Quantity") +
   theme(legend.position = "bottom", legend.title = element_blank()) +
-  scale_color_brewer(palette = "Set3")
+  scale_color_viridis_d()
 
 # Save the plot
 ggsave("plots/daily_totals.png", width = 10, height = 6)
@@ -87,7 +110,7 @@ ggplot(weekly_totals, aes(x = Week, y = Total_Quantity, color = Category, group 
   theme_minimal() +
   labs(title = "Weekly Total Quantity by Category", x = "Week", y = "Total Quantity") +
   theme(legend.position = "bottom", legend.title = element_blank()) +
-  scale_color_brewer(palette = "Set3")
+  scale_color_viridis_d()
 
 # Save the plot
 ggsave("plots/weekly_totals.png", width = 10, height = 6)
@@ -118,4 +141,3 @@ ggplot(cleaned_data, aes(x = NET.Sales, y = TOTAL.Sales)) +
 
 # Save the plot
 ggsave("plots/net_total_sales_scatter_plot.png", width = 10, height = 6)
-
