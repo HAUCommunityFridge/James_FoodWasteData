@@ -1,7 +1,7 @@
 ## HEADER
 # who: James S and Ed H
 # what: Food waste data
-# when: Last edited 2024-06-27 12:37
+# when: Last edited 2024-06-28 12:23
 
 # Source the data preparation script & load libraries
 source("scripts/data.R")
@@ -17,13 +17,11 @@ cleaned_data <- read.csv("data/cleaned_data.csv")
 
 # Function to update "Other" categories based on ProductId
 update_category <- function(data) {
-  # Create a lookup table for ProductId with non-"Other" categories
   lookup_table <- data %>%
     filter(Category != "Other") %>%
     select(ProductId, Category) %>%
     distinct()
   
-  # Join the lookup table with the original data
   updated_data <- data %>%
     left_join(lookup_table, by = "ProductId", suffix = c("", "_new")) %>%
     mutate(Category = ifelse(Category == "Other" & !is.na(Category_new), Category_new, Category)) %>%
@@ -42,36 +40,26 @@ write.csv(cleaned_data, "data/cleaned_data_updated.csv", row.names = FALSE)
 summary(cleaned_data)
 str(cleaned_data)
 
-# Analysis of Staff and Category
-print(table(cleaned_data$Staff))
+# Analysis of Category
 print(table(cleaned_data$Category))
-
-# Existing bar plot in base R
-par(mar=c(5,18,2,2))
-barplot(sort(table(cleaned_data$Category)),
-        horiz = T, las = 1)
-par(mar=c(5,4,2,2))
 
 # Example analysis: count of each category
 category_counts <- cleaned_data %>%
   group_by(Category) %>%
   summarise(count = n())
 
-# Create a bar plot of the Category column
+# Create and save bar plot for category distribution
 ggplot(category_counts, aes(x = reorder(Category, -count), y = count)) +
-  geom_bar(stat = "identity", fill = "skyblue", color = "black") +
+  geom_bar(stat = "identity", fill = viridis::viridis(length(unique(category_counts$Category))), color = "black") +
   theme_minimal() +
   labs(title = "Distribution of Categories", x = "Category", y = "Count") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-# Save the plot
 ggsave("plots/category_distribution.png")
 
-# Convert Quantity to numeric (removing non-numeric characters)
+# Convert Quantity to numeric and Date.Time to Date type
 cleaned_data$Quantity <- as.numeric(gsub("[^0-9.]", "", cleaned_data$Quantity))
-
-# Convert Date.Time to Date type
-cleaned_data$Date.Time <- as.POSIXct(cleaned_data$Date.Time, format="%d/%m/%Y %H:%M:%S")
+cleaned_data$Date.Time <- as.POSIXct(cleaned_data$Date.Time, format = "%d/%m/%Y %H:%M:%S")
 
 # Aggregate data to get total quantity per day for each category
 daily_totals <- cleaned_data %>%
@@ -82,7 +70,7 @@ daily_totals <- cleaned_data %>%
 print("Daily Totals:")
 print(daily_totals)
 
-# Create a line plot for daily totals
+# Create and save line plot for daily totals
 ggplot(daily_totals, aes(x = Date, y = Total_Quantity, color = Category, group = Category)) +
   geom_line(size = 1) +
   geom_point(size = 2) +
@@ -91,7 +79,6 @@ ggplot(daily_totals, aes(x = Date, y = Total_Quantity, color = Category, group =
   theme(legend.position = "bottom", legend.title = element_blank()) +
   scale_color_viridis_d()
 
-# Save the plot
 ggsave("plots/daily_totals.png", width = 10, height = 6)
 
 # Aggregate data to get total quantity per week for each category
@@ -103,7 +90,7 @@ weekly_totals <- cleaned_data %>%
 print("Weekly Totals:")
 print(weekly_totals)
 
-# Create a line plot for weekly totals
+# Create and save line plot for weekly totals
 ggplot(weekly_totals, aes(x = Week, y = Total_Quantity, color = Category, group = Category)) +
   geom_line(size = 1) +
   geom_point(size = 2) +
@@ -112,32 +99,28 @@ ggplot(weekly_totals, aes(x = Week, y = Total_Quantity, color = Category, group 
   theme(legend.position = "bottom", legend.title = element_blank()) +
   scale_color_viridis_d()
 
-# Save the plot
 ggsave("plots/weekly_totals.png", width = 10, height = 6)
 
 # Save the daily and weekly totals to CSV files
 write.csv(daily_totals, "data/daily_totals.csv", row.names = FALSE)
 write.csv(weekly_totals, "data/weekly_totals.csv", row.names = FALSE)
 
-# Create a histogram of the 'Quantity' column if there are valid (non-NA, non-zero) values
-if (any(!is.na(cleaned_data$Quantity) & cleaned_data$Quantity > 0)) {
-  ggplot(cleaned_data, aes(x = Quantity)) +
-    geom_histogram(binwidth = 100, fill = "skyblue", color = "black") +
-    theme_minimal() +
-    labs(title = "Histogram of Quantity", x = "Quantity", y = "Frequency")
-  
-  # Save the plot
-  ggsave("plots/quantity_histogram.png", width = 10, height = 6)
-} else {
-  print("No valid data for Quantity histogram.")
-}
+# Aggregate data to get total quantity by Tender (Returning user vs First time user) over time
+tender_daily_totals <- cleaned_data %>%
+  group_by(Date = as.Date(Date.Time), Tender) %>%
+  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE), .groups = 'drop')
 
-# Assuming there are two numerical columns 'NET.Sales' and 'TOTAL.Sales'
-# Create a scatter plot
-ggplot(cleaned_data, aes(x = NET.Sales, y = TOTAL.Sales)) +
-  geom_point(color = "skyblue") +
+# Print tender daily totals
+print("Tender Daily Totals:")
+print(tender_daily_totals)
+
+# Create and save line plot for tender daily totals
+ggplot(tender_daily_totals, aes(x = Date, y = Total_Quantity, color = Tender, group = Tender)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
   theme_minimal() +
-  labs(title = "Scatter Plot of NET Sales vs TOTAL Sales", x = "NET Sales", y = "TOTAL Sales")
+  labs(title = "Daily Total Quantity by Tender Type", x = "Date", y = "Total Quantity") +
+  theme(legend.position = "bottom", legend.title = element_blank()) +
+  scale_color_viridis_d()
 
-# Save the plot
-ggsave("plots/net_total_sales_scatter_plot.png", width = 10, height = 6)
+ggsave("plots/tender_daily_totals.png", width = 10, height = 6)
