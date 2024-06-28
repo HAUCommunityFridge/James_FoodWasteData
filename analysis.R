@@ -76,7 +76,12 @@ ggplot(daily_totals, aes(x = Date, y = Total_Quantity, color = Category, group =
   geom_point(size = 2) +
   theme_minimal() +
   labs(title = "Daily Total Quantity by Category", x = "Date", y = "Total Quantity") +
-  theme(legend.position = "bottom", legend.title = element_blank()) +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    panel.grid.major = element_line(color = "grey80"),
+    panel.grid.minor = element_blank()
+  ) +
   scale_color_viridis_d()
 
 ggsave("plots/daily_totals.png", width = 10, height = 6)
@@ -96,7 +101,12 @@ ggplot(weekly_totals, aes(x = Week, y = Total_Quantity, color = Category, group 
   geom_point(size = 2) +
   theme_minimal() +
   labs(title = "Weekly Total Quantity by Category", x = "Week", y = "Total Quantity") +
-  theme(legend.position = "bottom", legend.title = element_blank()) +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    panel.grid.major = element_line(color = "grey80"),
+    panel.grid.minor = element_blank()
+  ) +
   scale_color_viridis_d()
 
 ggsave("plots/weekly_totals.png", width = 10, height = 6)
@@ -120,7 +130,12 @@ ggplot(tender_daily_totals, aes(x = Date, y = Total_Quantity, color = Tender, gr
   geom_point(size = 2) +
   theme_minimal() +
   labs(title = "Daily Total Quantity by Tender Type", x = "Date", y = "Total Quantity") +
-  theme(legend.position = "bottom", legend.title = element_blank()) +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    panel.grid.major = element_line(color = "grey80"),
+    panel.grid.minor = element_blank()
+  ) +
   scale_color_viridis_d()
 
 ggsave("plots/tender_daily_totals.png", width = 10, height = 6)
