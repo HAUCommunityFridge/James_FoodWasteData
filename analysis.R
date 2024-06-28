@@ -15,7 +15,7 @@ if (!dir.exists("plots")) {
 # Load the cleaned data
 cleaned_data <- read.csv("data/cleaned_data.csv")
 
-# Function to update "Other" categories based on ProductId
+# Function to update the "Other" categories based on "ProductId"
 update_category <- function(data) {
   lookup_table <- data %>%
     filter(Category != "Other") %>%
@@ -136,6 +136,6 @@ ggplot(tender_daily_totals, aes(x = Date, y = Total_Quantity, color = Tender, gr
     panel.grid.major = element_line(color = "grey80"),
     panel.grid.minor = element_blank()
   ) +
-  scale_color_viridis_d()
+  scale_color_manual(values = c("Returning user" = "lightblue", "First time user" = "orange"))
 
 ggsave("plots/tender_daily_totals.png", width = 10, height = 6)
