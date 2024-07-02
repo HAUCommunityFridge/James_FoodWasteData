@@ -4,8 +4,9 @@
 # when: Last edited 2024-06-28 12:23
 
 # Source the data preparation script & load libraries
-source("scripts/data.R")
 source("scripts/libraries.R")
+source("scripts/data.R")
+
 
 # Create plots directory if it doesn't exist
 if (!dir.exists("plots")) {
