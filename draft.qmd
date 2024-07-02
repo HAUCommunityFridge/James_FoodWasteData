@@ -1,0 +1,278 @@
+---
+title: "Food Waste Data Dashboard"
+author: "HAU AgriDat"
+format: 
+  dashboard:
+    theme: cerulean
+orientation: columns
+---
+
+## Setup and Data Loading
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(viridis)
+
+# Load the cleaned data
+cleaned_data <- read.csv("data/cleaned_data.csv")
+
+# Add a column to identify whether the food is taken or donated
+cleaned_data <- cleaned_data %>%
+  mutate(FoodType = ifelse(grepl("\\(Take\\)", Product), "Take", "Donate"))
+
+# Function to update "Other" categories based on ProductID
+update_category <- function(data) {
+  lookup_table <- data %>%
+    filter(Category != "Other") %>%
+    select(ProductId, Category) %>%
+    distinct()
+  
+  updated_data <- data %>%
+    left_join(lookup_table, by = "ProductId", suffix = c("", "_new")) %>%
+    mutate(Category = ifelse(Category == "Other" & !is.na(Category_new), Category_new, Category)) %>%
+    select(-Category_new)
+  
+  return(updated_data)
+}
+
+cleaned_data <- update_category(cleaned_data)
+
+# Convert Quantity to numeric and Date.Time to Date type
+cleaned_data$Quantity <- as.numeric(gsub("[^0-9.]", "", cleaned_data$Quantity))
+cleaned_data$Date.Time <- as.POSIXct(cleaned_data$Date.Time, format = "%d/%m/%Y %H:%M:%S")
+```
+
+# Filter data for taken food
+```{r}
+# Filter data for taken food
+filtered_data_taken <- cleaned_data %>% filter(FoodType == "Take")
+
+# Calculate the total quantity in grams and kilograms for taken food
+total_quantity_grams_taken <- sum(filtered_data_taken$Quantity, na.rm = TRUE)
+total_quantity_kilograms_taken <- total_quantity_grams_taken / 1000
+
+# Calculate the average daily quantity for taken food
+unique_days_taken <- length(unique(as.Date(filtered_data_taken$Date.Time)))
+average_daily_quantity_taken <- total_quantity_kilograms_taken / unique_days_taken
+```
+
+## row {width="25%"}
+
+```{r}
+#| component: valuebox
+#| title: "Total Quantity (KG)"
+#| color: primary
+total_quantity_kilograms_taken
+```
+
+```{r}
+#| component: valuebox
+#| title: "Average Daily Quantity (KG)"
+#| color: secondary
+average_daily_quantity_taken
+```
+
+## Row {.tabset}
+```{r}
+#| title: Distribution count of each category
+# Distribution count of each category for taken food
+category_counts_taken <- filtered_data_taken %>%
+  group_by(Category) %>%
+  summarise(count = n())
+
+# Create bar plot for category distribution
+ggplot(category_counts_taken, aes(x = reorder(Category, -count), y = count)) +
+  geom_bar(stat = "identity", fill = viridis::viridis(length(unique(category_counts_taken$Category))), color = "black") +
+  theme_minimal() +
+  labs(title = "Distribution of Categories (Taken Food)", x = "Category", y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+#| title: Total quantity per day per category
+# Total quantity per day for each category for taken food
+daily_totals_taken <- filtered_data_taken %>%
+  group_by(Date = as.Date(Date.Time), Category) %>%
+  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE), .groups = 'drop')
+
+# Create line plot for daily totals
+ggplot(daily_totals_taken, aes(x = Date, y = Total_Quantity, color = Category, group = Category)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  theme_minimal() +
+  labs(title = "Daily Total Quantity by Category (Taken Food)", x = "Date", y = "Total Quantity") +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    panel.grid.major = element_line(color = "grey80"),
+    panel.grid.minor = element_blank()
+  ) +
+  scale_color_viridis_d()
+```
+
+```{r}
+#| title: Total quantity per week per category
+# Total quantity per week for each category for taken food
+weekly_totals_taken <- filtered_data_taken %>%
+  group_by(Week = floor_date(Date.Time, "week"), Category) %>%
+  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE), .groups = 'drop')
+
+# Create line plot for weekly totals
+ggplot(weekly_totals_taken, aes(x = Week, y = Total_Quantity, color = Category, group = Category)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  theme_minimal() +
+  labs(title = "Weekly Total Quantity by Category (Taken Food)", x = "Week", y = "Total Quantity") +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    panel.grid.major = element_line(color = "grey80"),
+    panel.grid.minor = element_blank()
+  ) +
+  scale_color_viridis_d()
+```
+
+```{r}
+#| title: Total quantity by Tender over time
+# Total quantity by Tender over time for taken food
+tender_daily_totals_taken <- filtered_data_taken %>%
+  group_by(Date = as.Date(Date.Time), Tender) %>%
+  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE), .groups = 'drop')
+
+# Create line plot for tender daily totals
+ggplot(tender_daily_totals_taken, aes(x = Date, y = Total_Quantity, color = Tender, group = Tender)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  theme_minimal() +
+  labs(title = "Daily Total Quantity by Tender Type (Taken Food)", x = "Date", y = "Total Quantity") +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    panel.grid.major = element_line(color = "grey80"),
+    panel.grid.minor = element_blank()
+  ) +
+  scale_color_manual(values = c("Returning user" = "darkblue", "First time user" = "orange"))
+```
+
+# Filter data for donated food
+```{r}
+# Filter data for donated food
+filtered_data_donated <- cleaned_data %>% filter(FoodType == "Donate")
+
+# Calculate the total quantity in grams and kilograms for donated food
+total_quantity_grams_donated <- sum(filtered_data_donated$Quantity, na.rm = TRUE)
+total_quantity_kilograms_donated <- total_quantity_grams_donated / 1000
+
+# Calculate the average daily quantity for donated food
+unique_days_donated <- length(unique(as.Date(filtered_data_donated$Date.Time)))
+average_daily_quantity_donated <- total_quantity_kilograms_donated / unique_days_donated
+```
+
+## row {width="25%"}
+```{r}
+#| component: valuebox
+#| title: "Total Quantity (KG)"
+#| color: primary
+total_quantity_kilograms_donated
+```
+
+```{r}
+#| component: valuebox
+#| title: "Average Daily Quantity (KG)"
+#| color: secondary
+average_daily_quantity_donated
+```
+
+## Row {.tabset}
+```{r}
+#| title: Distribution count of each category
+# Distribution count of each category for donated food
+category_counts_donated <- filtered_data_donated %>%
+  group_by(Category) %>%
+  summarise(count = n())
+
+# Create bar plot for category distribution
+ggplot(category_counts_donated, aes(x = reorder(Category, -count), y = count)) +
+  geom_bar(stat = "identity", fill = viridis::viridis(length(unique(category_counts_donated$Category))), color = "black") +
+  theme_minimal() +
+  labs(title = "Distribution of Categories (Donated Food)", x = "Category", y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+#| title: Total quantity per day per category
+# Total quantity per day for each category for donated food
+daily_totals_donated <- filtered_data_donated %>%
+  group_by(Date = as.Date(Date.Time), Category) %>%
+  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE), .groups = 'drop')
+
+# Create line plot for daily totals
+ggplot(daily_totals_donated, aes(x = Date, y = Total_Quantity, color = Category, group = Category)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  theme_minimal() +
+  labs(title = "Daily Total Quantity by Category (Donated Food)", x = "Date", y = "Total Quantity") +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    panel.grid.major = element_line(color = "grey80"),
+    panel.grid.minor = element_blank()
+  ) +
+  scale_color_viridis_d()
+```
+
+```{r}
+#| title: Total quantity per week per category
+# Total quantity per week for each category for donated food
+weekly_totals_donated <- filtered_data_donated %>%
+  group_by(Week = floor_date(Date.Time, "week"), Category) %>%
+  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE), .groups = 'drop')
+
+# Create line plot for weekly totals
+ggplot(weekly_totals_donated, aes(x = Week, y = Total_Quantity, color = Category, group = Category)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  theme_minimal() +
+  labs(title = "Weekly Total Quantity by Category (Donated Food)", x = "Week", y = "Total Quantity") +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    panel.grid.major = element_line(color = "grey80"),
+    panel.grid.minor = element_blank()
+  ) +
+  scale_color_viridis_d()
+```
+
+```{r}
+#| title: Total quantity by Tender over time
+# Total quantity by Tender over time for donated food
+tender_daily_totals_donated <- filtered_data_donated %>%
+  group_by(Date = as.Date(Date.Time), Tender) %>%
+  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE), .groups = 'drop')
+
+# Create line plot for tender daily totals
+ggplot(tender_daily_totals_donated, aes(x = Date, y = Total_Quantity, color = Tender, group = Tender)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  theme_minimal() +
+  labs(title = "Daily Total Quantity by Tender Type (Donated Food)", x = "Date", y = "Total Quantity") +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    panel.grid.major = element_line(color = "grey80"),
+    panel.grid.minor = element_blank()
+  ) +
+  scale_color_manual(values = c("Returning user" = "darkblue", "First time user" = "orange"))
+```
+
+#  {.sidebar}
+Dashboard information:
+
+|               |                                        |
+|---------------|----------------------------------------|
+| **Quantity:** | Amount of food in (kg).                |
+| **User:**     | The type of user (new or Returning).   |
+| **Category:** | The type of food (Meat, Poultry, etc). |
+
+------------------------------------------------------------------------
+

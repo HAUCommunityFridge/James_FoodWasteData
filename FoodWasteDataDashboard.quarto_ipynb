@@ -1,0 +1,67 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Food Waste Data Dashboard\"\n",
+        "author: \"HAU AgriDat\"\n",
+        "format: \n",
+        "  dashboard:\n",
+        "    theme: cerulean\n",
+        "---"
+      ],
+      "id": "92ab7ba4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# prepare data\n",
+        "import pandas as pd\n",
+        "FoodWaste_df = pd.read_csv(\"data/cleaned_data_updated.csv\")"
+      ],
+      "id": "f65285a9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Stats\n",
+        "\n",
+        "## Row\n"
+      ],
+      "id": "ce9ac3c8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "component": "valuebox",
+        "title": "Total Quantity"
+      },
+      "source": [
+        "dict(\n",
+        "    icon = \"exclamation-triangle\",\n",
+        "    color = \"primary\",\n",
+        "    value = \n",
+        ")"
+      ],
+      "id": "0bf2b138",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\James Simmill\\AppData\\Local\\Programs\\Python\\Python38\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
