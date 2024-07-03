@@ -79,34 +79,33 @@ cleaned_data <- cleaned_data %>%
 # Filter data for taken food
 filtered_data_taken <- cleaned_data %>% filter(FoodType == "Take")
 
-# Calculate the total quantity in grams and kilograms for taken food
-total_quantity_g_taken <- sum(filtered_data_taken$Quantity, na.rm = TRUE)
-total_quantity_kg_taken <- total_quantity_g_taken / 1000
+# Calculate the total quantity for taken food
+total_quantity_taken <- sum(filtered_data_taken$Quantity, na.rm = TRUE)
 
 # Calculate the average daily quantity for taken food
 unique_days_taken <- length(unique(as.Date(filtered_data_taken$Date.Time)))
-average_daily_quantity_taken <- total_quantity_kg_taken / unique_days_taken
+average_daily_quantity_taken <- total_quantity_taken / unique_days_taken
 
 # Calculate the total number of first-time users who have taken food
 total_first_time_users_taken <- sum(filtered_data_taken$Tender == "First time user")
 
 # Round the quantities to 2 decimal places
-total_quantity_kg_taken <- round(total_quantity_kg_taken, 2)
-average_daily_quantity_taken <- round(average_daily_quantity_taken, 2)
+total_quantity_taken <- round(total_quantity_taken, 2)
+average_daily_quantity_taken <- round(average_daily_quantity_taken, 0)
 ```
 
 ## row {width="25%"}
 
 ```{r}
 #| component: valuebox
-#| title: "Total Quantity of Food Saved (Kg)"
+#| title: "Total Quantity of Food Saved"
 #| color: primary
-total_quantity_kg_taken
+total_quantity_taken
 ```
 
 ```{r}
 #| component: valuebox
-#| title: "Average Daily Quantity Saved (Kg)"
+#| title: "Average Daily Quantity Saved"
 #| color: secondary
 average_daily_quantity_taken
 ```
@@ -138,32 +137,32 @@ filtered_data_taken <- filtered_data_taken %>%
 # Recreate the summary for the plot
 category_totals_taken <- filtered_data_taken %>%
   group_by(Category) %>%
-  summarise(Total_Quantity_kg = sum(Quantity, na.rm = TRUE) / 1000)
+  summarise(Total_Quantity_kg = sum(Quantity, na.rm = TRUE))
 
 # Create bar plot for category distribution
 ggplot(category_totals_taken, aes(x = reorder(Category, -Total_Quantity_kg), y = Total_Quantity_kg)) +
   geom_bar(stat = "identity", fill = viridis::viridis(length(unique(category_totals_taken$Category))), color = "black") +
   theme_minimal() +
-  labs(title = "Distribution of Total Quantity by Category (Taken Food)", x = "Category", y = "Total Quantity (Kg)") +
+  labs(title = "Distribution of Total Quantity by Category (Taken Food)", x = "Category", y = "Total Quantity") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ```{r}
-#| title: Cumulative Total Quantity (Taken Food)
+#| title: Cumulative Total Quantity
 
 # Total quantity per day for taken food
 daily_totals_taken <- filtered_data_taken %>%
   group_by(Date = as.Date(Date.Time)) %>%
-  summarise(Daily_Quantity_kg = sum(Quantity, na.rm = TRUE) / 1000, .groups = 'drop') %>%
+  summarise(Daily_Quantity = sum(Quantity, na.rm = TRUE), .groups = 'drop') %>%
   arrange(Date) %>%
-  mutate(Cumulative_Quantity_kg = cumsum(Daily_Quantity_kg))
+  mutate(Cumulative_Quantity_kg = cumsum(Daily_Quantity))
 
 # Create a plotly line plot for daily cumulative totals
 plot_ly(daily_totals_taken, x = ~Date, y = ~Cumulative_Quantity_kg, type = 'scatter', mode = 'lines+markers',
         line = list(color = 'blue'), marker = list(color = 'blue')) %>%
   layout(title = 'Cumulative Total Quantity (Taken Food)',
          xaxis = list(title = 'Date'),
-         yaxis = list(title = 'Cumulative Quantity (Kg)'))
+         yaxis = list(title = 'Cumulative Quantity'))
 ```
 
 ```{r}
