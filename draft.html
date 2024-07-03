@@ -92,13 +92,13 @@ grid-auto-rows: minmax(0, 1fr);">
 <div id="saved-food-used" class="dashboard-page tab-pane show active html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-saved-food-used">
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 25fr) minmax(3em, 75fr);
 grid-auto-rows: minmax(0, 1fr);">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr) minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr) minmax(3em, 1fr) minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
 <div class="card valuebox cell html-fill-item html-fill-container bslib-card bslib-value-box bg-primary" data-bslib-card-init="" data-require-bs-caller="card()">
 <div class="card-body html-fill-item html-fill-container">
 <div class="html-fill-item html-fill-container value-box-grid">
 <div class="value-box-area">
 <p class="value-box-title">
-Total Quantity (Kg)
+Total Quantity of Food Saved (Kg)
 </p>
 <p class="value-box-value">
 6.55
@@ -112,7 +112,7 @@ Total Quantity (Kg)
 <div class="html-fill-item html-fill-container value-box-grid">
 <div class="value-box-area">
 <p class="value-box-title">
-Average Daily Quantity (Kg)
+Average Daily Quantity Saved (Kg)
 </p>
 <p class="value-box-value">
 0.14
@@ -121,26 +121,40 @@ Average Daily Quantity (Kg)
 </div>
 </div>
 <script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+<div class="card valuebox cell html-fill-item html-fill-container bslib-card bslib-value-box bg-secondary" data-bslib-card-init="" data-require-bs-caller="card()">
+<div class="card-body html-fill-item html-fill-container">
+<div class="html-fill-item html-fill-container value-box-grid">
+<div class="value-box-area">
+<p class="value-box-title">
+Total Number of New Users
+</p>
+<p class="value-box-value">
+416
+</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div><div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header dashboard-card-no-title bslib-navs-card-title">
 
-<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-3"><li class="nav-item" role="presentation"><a href="#card-tabset-3-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Distribution of Total Quantity by Category" aria-selected="true" class="nav-link active">Distribution of Total Quantity by Category</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-3-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Cumulative Total Quantity (Taken Food)" aria-selected="false" class="nav-link">Cumulative Total Quantity (Taken Food)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-3-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="New Users Over Time (Taken Food)" aria-selected="false" class="nav-link">New Users Over Time (Taken Food)</a></li></ul></div>
+<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-4"><li class="nav-item" role="presentation"><a href="#card-tabset-4-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Distribution of Total Quantity by Category" aria-selected="true" class="nav-link active">Distribution of Total Quantity by Category</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-4-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Cumulative Total Quantity (Taken Food)" aria-selected="false" class="nav-link">Cumulative Total Quantity (Taken Food)</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-4-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="New Users Over Time (Taken Food)" aria-selected="false" class="nav-link">New Users Over Time (Taken Food)</a></li></ul></div>
 
 
 
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-3"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-3-1"><div class="card-body html-fill-item html-fill-container" data-title="Distribution of Total Quantity by Category">
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-4"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-4-1"><div class="card-body html-fill-item html-fill-container" data-title="Distribution of Total Quantity by Category">
 <div class="cell-output-display html-fill-item html-fill-container">
-<img src="draft_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-dashboard-img-contain">
+<img src="draft_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-dashboard-img-contain">
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-3-2"><div class="card-body html-fill-item html-fill-container" data-title="Cumulative Total Quantity (Taken Food)">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-4-2"><div class="card-body html-fill-item html-fill-container" data-title="Cumulative Total Quantity (Taken Food)">
 <div class="cell-output-display html-fill-item html-fill-container">
-<div class="plotly html-widget html-fill-item html-fill-container" id="htmlwidget-76fe9acf10f68f114903" style="width:100%;height:406px;"></div>
-<script type="application/json" data-for="htmlwidget-76fe9acf10f68f114903">{"x":{"visdat":{"349474be3d91":["function () ","plotlyVisDat"]},"cur_data":"349474be3d91","attrs":{"349474be3d91":{"x":{},"y":{},"mode":"lines+markers","line":{"color":"blue"},"marker":{"color":"blue"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Cumulative Total Quantity (Taken Food)","xaxis":{"domain":[0,1],"automargin":true,"title":"Date"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Cumulative Quantity (Kg)"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["2024-03-25","2024-03-26","2024-03-27","2024-04-03","2024-04-04","2024-04-05","2024-04-07","2024-04-08","2024-04-09","2024-04-10","2024-04-11","2024-04-12","2024-04-15","2024-04-16","2024-04-17","2024-04-18","2024-04-19","2024-04-20","2024-04-22","2024-04-23","2024-04-24","2024-04-25","2024-04-26","2024-04-27","2024-04-28","2024-04-29","2024-04-30","2024-05-01","2024-05-02","2024-05-03","2024-05-04","2024-05-05","2024-05-06","2024-05-07","2024-05-08","2024-05-09","2024-05-10","2024-05-11","2024-05-12","2024-05-13","2024-05-14","2024-05-15","2024-05-16","2024-05-17","2024-05-18","2024-05-19","2024-05-20","2024-05-21"],"y":[0.0050000000000000001,0.73399999999999999,1.1059999999999999,1.1539999999999999,1.1719999999999999,1.2050000000000001,1.222,1.4299999999999999,1.5549999999999999,2.1110000000000002,2.1480000000000001,2.1960000000000002,2.198,2.3330000000000002,2.3679999999999999,2.4209999999999998,2.5150000000000001,2.5260000000000002,2.7149999999999999,2.831,3.6680000000000001,3.8199999999999998,4.016,4.024,4.0369999999999999,4.0949999999999998,4.1429999999999998,4.3090000000000002,4.4219999999999997,4.6680000000000001,4.6950000000000003,4.7220000000000004,4.7919999999999998,4.8899999999999997,5.109,5.2759999999999998,5.3600000000000003,5.3879999999999999,5.4429999999999996,5.6980000000000004,5.7910000000000004,5.8609999999999998,6.0800000000000001,6.242,6.29,6.3040000000000003,6.492,6.5490000000000004],"mode":"lines+markers","line":{"color":"blue"},"marker":{"color":"blue","line":{"color":"rgba(31,119,180,1)"}},"type":"scatter","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item html-fill-container" id="htmlwidget-8364a45df3b93f4fe790" style="width:100%;height:406px;"></div>
+<script type="application/json" data-for="htmlwidget-8364a45df3b93f4fe790">{"x":{"visdat":{"b460ef13c9":["function () ","plotlyVisDat"]},"cur_data":"b460ef13c9","attrs":{"b460ef13c9":{"x":{},"y":{},"mode":"lines+markers","line":{"color":"blue"},"marker":{"color":"blue"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Cumulative Total Quantity (Taken Food)","xaxis":{"domain":[0,1],"automargin":true,"title":"Date"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Cumulative Quantity (Kg)"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["2024-03-25","2024-03-26","2024-03-27","2024-04-03","2024-04-04","2024-04-05","2024-04-07","2024-04-08","2024-04-09","2024-04-10","2024-04-11","2024-04-12","2024-04-15","2024-04-16","2024-04-17","2024-04-18","2024-04-19","2024-04-20","2024-04-22","2024-04-23","2024-04-24","2024-04-25","2024-04-26","2024-04-27","2024-04-28","2024-04-29","2024-04-30","2024-05-01","2024-05-02","2024-05-03","2024-05-04","2024-05-05","2024-05-06","2024-05-07","2024-05-08","2024-05-09","2024-05-10","2024-05-11","2024-05-12","2024-05-13","2024-05-14","2024-05-15","2024-05-16","2024-05-17","2024-05-18","2024-05-19","2024-05-20","2024-05-21"],"y":[0.0050000000000000001,0.73399999999999999,1.1059999999999999,1.1539999999999999,1.1719999999999999,1.2050000000000001,1.222,1.4299999999999999,1.5549999999999999,2.1110000000000002,2.1480000000000001,2.1960000000000002,2.198,2.3330000000000002,2.3679999999999999,2.4209999999999998,2.5150000000000001,2.5260000000000002,2.7149999999999999,2.831,3.6680000000000001,3.8199999999999998,4.016,4.024,4.0369999999999999,4.0949999999999998,4.1429999999999998,4.3090000000000002,4.4219999999999997,4.6680000000000001,4.6950000000000003,4.7220000000000004,4.7919999999999998,4.8899999999999997,5.109,5.2759999999999998,5.3600000000000003,5.3879999999999999,5.4429999999999996,5.6980000000000004,5.7910000000000004,5.8609999999999998,6.0800000000000001,6.242,6.29,6.3040000000000003,6.492,6.5490000000000004],"mode":"lines+markers","line":{"color":"blue"},"marker":{"color":"blue","line":{"color":"rgba(31,119,180,1)"}},"type":"scatter","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-3-3"><div class="card-body html-fill-item html-fill-container" data-title="New Users Over Time (Taken Food)">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-4-3"><div class="card-body html-fill-item html-fill-container" data-title="New Users Over Time (Taken Food)">
 <div class="cell-output-display html-fill-item html-fill-container">
-<div class="plotly html-widget html-fill-item html-fill-container" id="htmlwidget-9dba87e2a8d974626f02" style="width:100%;height:406px;"></div>
-<script type="application/json" data-for="htmlwidget-9dba87e2a8d974626f02">{"x":{"visdat":{"349474556339":["function () ","plotlyVisDat"]},"cur_data":"349474556339","attrs":{"349474556339":{"x":{},"y":{},"mode":"lines+markers","line":{"color":"orange"},"marker":{"color":"orange"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"New Users Over Time (Taken Food)","xaxis":{"domain":[0,1],"automargin":true,"title":"Date"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Cumulative New Users"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["2024-03-25","2024-03-26","2024-03-27","2024-04-03","2024-04-04","2024-04-05","2024-04-08","2024-04-09","2024-04-10","2024-04-11","2024-04-12","2024-04-16","2024-04-17","2024-04-19","2024-04-22","2024-04-23","2024-04-24","2024-04-25","2024-04-26","2024-04-29","2024-04-30","2024-05-01","2024-05-02","2024-05-03","2024-05-04","2024-05-05","2024-05-06","2024-05-07","2024-05-08","2024-05-09","2024-05-10","2024-05-12","2024-05-13","2024-05-14","2024-05-15","2024-05-16","2024-05-18","2024-05-20","2024-05-21"],"y":[1,67,88,90,91,96,117,121,146,149,154,159,163,165,192,205,230,236,249,251,256,278,286,292,296,305,313,319,328,345,352,353,368,375,378,386,405,413,416],"mode":"lines+markers","line":{"color":"orange"},"marker":{"color":"orange","line":{"color":"rgba(31,119,180,1)"}},"type":"scatter","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item html-fill-container" id="htmlwidget-6b9804668f320a80a642" style="width:100%;height:406px;"></div>
+<script type="application/json" data-for="htmlwidget-6b9804668f320a80a642">{"x":{"visdat":{"b438d6e51":["function () ","plotlyVisDat"]},"cur_data":"b438d6e51","attrs":{"b438d6e51":{"x":{},"y":{},"mode":"lines+markers","line":{"color":"orange"},"marker":{"color":"orange"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"New Users Over Time (Taken Food)","xaxis":{"domain":[0,1],"automargin":true,"title":"Date"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Cumulative New Users"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["2024-03-25","2024-03-26","2024-03-27","2024-04-03","2024-04-04","2024-04-05","2024-04-08","2024-04-09","2024-04-10","2024-04-11","2024-04-12","2024-04-16","2024-04-17","2024-04-19","2024-04-22","2024-04-23","2024-04-24","2024-04-25","2024-04-26","2024-04-29","2024-04-30","2024-05-01","2024-05-02","2024-05-03","2024-05-04","2024-05-05","2024-05-06","2024-05-07","2024-05-08","2024-05-09","2024-05-10","2024-05-12","2024-05-13","2024-05-14","2024-05-15","2024-05-16","2024-05-18","2024-05-20","2024-05-21"],"y":[1,67,88,90,91,96,117,121,146,149,154,159,163,165,192,205,230,236,249,251,256,278,286,292,296,305,313,319,328,345,352,353,368,375,378,386,405,413,416],"mode":"lines+markers","line":{"color":"orange"},"marker":{"color":"orange","line":{"color":"rgba(31,119,180,1)"}},"type":"scatter","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
@@ -150,22 +164,82 @@ Average Daily Quantity (Kg)
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
 </div><div id="about" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-about">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr) minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-body html-fill-item html-fill-container">
-<p>Welcome to the Food Waste Data Dashboard. This dashboard provides insights into the amount of food saved through our community fridge initiative, focusing on both taken and donated food.</p>
-<p>Key Metrics Total Quantity (Kg): The total weight of food saved, measured in kilograms. Average Daily Quantity (Kg): The average weight of food saved per day, measured in kilograms. New Users: The cumulative number of new users participating in the initiative.</p>
-<p>QR Code Scan the QR code to learn more about the community fridge project.</p>
-<p>Definitions Quantity: Amount of food in kilograms. User: The type of user (new or returning). Category: The type of food (e.g., Meat, Poultry, etc.).</p>
+<p style="font-size: 20px;">
+<strong>Dashboard Information:</strong>
+</p><p style="font-size: 18px;">
+Welcome to the Food Waste Data Dashboard. This dashboard provides insights into the amount of food saved through our community fridge initiative, focusing on both taken and donated food.
+</p>
+<p style="font-size: 18px;">
+Scan our QR code to learn more about the community fridge project.
+</p>
+<img src="QR.png" style="width: 200px; height: 200px;">
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
     <span class="bslib-full-screen-enter badge rounded-pill">
         <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
     </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div><div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden html-fill-item html-fill-container">
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<p style="font-size: 20px;">
+<strong>Overview:</strong>
+</p><p style="font-size: 18px;">
+</p><ul>
+<li><strong>Total Quantity (Kg):</strong> The total weight of food saved, measured in kilograms.<br></li>
+<li><strong>Average Daily Quantity (Kg):</strong> The average weight of food saved per day, measured in kilograms.<br></li>
+<li><strong>New Users:</strong> The cumulative number of new users participating in the initiative.<br></li>
+<li><strong>Category:</strong> The type of food (e.g., Meat, Poultry, etc.).</li>
+</ul>
+<p></p>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<p style="font-size: 20px;">
+<strong>Contributions:</strong>
+</p><p style="font-size: 18px;">
+We would like to thank the following contributors for their support and effort in making the community fridge initiative a success:
+</p>
+<ul style="font-size: 18px;">
+<li>
+James S and Ed H for data analysis and dashboard creation.
+</li>
+<li>
+Community volunteers for managing the fridge and ensuring smooth operations.
+</li>
+<li>
+Local donors and participants who generously contributed food items.
+</li>
+<li>
+Harper Adams University for providing the necessary resources and support.
+</li>
+</ul>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden html-fill-item html-fill-container">
 
+</div>
 </div>
 </div>
 </div>

@@ -13,6 +13,16 @@ library(tidyverse)
 library(lubridate)
 library(viridis)
 library(plotly)
+library(qrencoder)
+
+### Some form of Error here qr code comes out blury.
+# Generate the QR code with a higher resolution
+#qr <- qrencoder::qrencode("https://www.harper-adams.ac.uk/community/988/community-fridge-pilot-project/")
+
+# Save the QR code as a high-resolution PNG file
+#png("qr_code.png", width = 1000, height = 1000)
+#plot(as.raster(qr), col = c("white", "black"), asp = 1, axes = FALSE, xlab = "", ylab = "", main = "")
+#dev.off()
 
 # Load the cleaned data
 cleaned_data <- read.csv("data/cleaned_data.csv")
@@ -25,13 +35,13 @@ cleaned_data <- cleaned_data %>%
 update_category <- function(data) {
   lookup_table <- data %>%
     filter(Category != "Other") %>%
-    select(ProductId, Category) %>%
+    dplyr::select(ProductId, Category) %>%
     distinct()
   
   updated_data <- data %>%
     left_join(lookup_table, by = "ProductId", suffix = c("", "_new")) %>%
     mutate(Category = ifelse(Category == "Other" & !is.na(Category_new), Category_new, Category)) %>%
-    select(-Category_new)
+    dplyr::select(-Category_new)
   
   return(updated_data)
 }
@@ -77,6 +87,9 @@ total_quantity_kg_taken <- total_quantity_g_taken / 1000
 unique_days_taken <- length(unique(as.Date(filtered_data_taken$Date.Time)))
 average_daily_quantity_taken <- total_quantity_kg_taken / unique_days_taken
 
+# Calculate the total number of first-time users who have taken food
+total_first_time_users_taken <- sum(filtered_data_taken$Tender == "First time user")
+
 # Round the quantities to 2 decimal places
 total_quantity_kg_taken <- round(total_quantity_kg_taken, 2)
 average_daily_quantity_taken <- round(average_daily_quantity_taken, 2)
@@ -86,16 +99,22 @@ average_daily_quantity_taken <- round(average_daily_quantity_taken, 2)
 
 ```{r}
 #| component: valuebox
-#| title: "Total Quantity (Kg)"
+#| title: "Total Quantity of Food Saved (Kg)"
 #| color: primary
 total_quantity_kg_taken
 ```
 
 ```{r}
 #| component: valuebox
-#| title: "Average Daily Quantity (Kg)"
+#| title: "Average Daily Quantity Saved (Kg)"
 #| color: secondary
 average_daily_quantity_taken
+```
+```{r}
+#| component: valuebox
+#| title: "Total Number of New Users"
+#| color: secondary
+total_first_time_users_taken
 ```
 
 ## Row {.tabset}
@@ -167,18 +186,41 @@ plot_ly(new_users_daily_taken, x = ~Date, y = ~Cumulative_New_Users, type = 'sca
 ```
 
 # About
+## Dashboard Information
+<p style="font-size: 20px;">
+**Dashboard Information:**
+<p style="font-size: 18px;">
 Welcome to the Food Waste Data Dashboard. This dashboard provides insights into the amount of food saved through our community fridge initiative, focusing on both taken and donated food.
+</p>
 
-Key Metrics
-Total Quantity (Kg): The total weight of food saved, measured in kilograms.
-Average Daily Quantity (Kg): The average weight of food saved per day, measured in kilograms.
-New Users: The cumulative number of new users participating in the initiative.
+<p style="font-size: 18px;">
+Scan our QR code to learn more about the community fridge project.
+</p>
+<img src="QR.png" style="width: 200px; height: 200px;">
 
-QR Code
-Scan the QR code to learn more about the community fridge project.
+## Key Metrics
 
+### Overview
+<p style="font-size: 20px;">
+**Overview:**
+<p style="font-size: 18px;">
+- **Total Quantity (Kg):** The total weight of food saved, measured in kilograms.<br>
+- **Average Daily Quantity (Kg):** The average weight of food saved per day, measured in kilograms.<br>
+- **New Users:** The cumulative number of new users participating in the initiative.<br>
+- **Category:** The type of food (e.g., Meat, Poultry, etc.).
+</p>
 
-Definitions
-Quantity: Amount of food in kilograms.
-User: The type of user (new or returning).
-Category: The type of food (e.g., Meat, Poultry, etc.).
+## Contributions
+<p style="font-size: 20px;">
+**Contributions:**
+<p style="font-size: 18px;">
+We would like to thank the following contributors for their support and effort in making the community fridge initiative a success:
+</p>
+
+<ul style="font-size: 18px;">
+  <li>James S and Ed H for data analysis and dashboard creation.</li>
+  <li>Community volunteers for managing the fridge and ensuring smooth operations.</li>
+  <li>Local donors and participants who generously contributed food items.</li>
+  <li>Harper Adams University for providing the necessary resources and support.</li>
+</ul>
+
