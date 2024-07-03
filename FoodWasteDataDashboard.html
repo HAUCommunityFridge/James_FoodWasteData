@@ -42,16 +42,34 @@ ul.task-list li input[type="checkbox"] {
 <script src="FoodWasteDataDashboard_files/libs/quarto-dashboard/web-components.js" type="module"></script>
 <script src="FoodWasteDataDashboard_files/libs/quarto-dashboard/components.js"></script>
 <link href="FoodWasteDataDashboard_files/libs/quarto-dashboard/datatables.min.css" rel="stylesheet" kdttablesentinel="true">
+<link href="FoodWasteDataDashboard_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="FoodWasteDataDashboard_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="FoodWasteDataDashboard_files/libs/plotly-binding-4.10.4/plotly.js"></script>
+
+<script src="FoodWasteDataDashboard_files/libs/typedarray-0.1/typedarray.min.js"></script>
+
+<script src="FoodWasteDataDashboard_files/libs/jquery-3.5.1/jquery.min.js"></script>
+
+<link href="FoodWasteDataDashboard_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="FoodWasteDataDashboard_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+<link href="FoodWasteDataDashboard_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="FoodWasteDataDashboard_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
 
 
 </head>
 
-<body class="quarto-dashboard dashboard-fill dashboard-sidebar fullcontent">
+<body class="quarto-dashboard dashboard-fill fullcontent">
 
 <header id="quarto-dashboard-header">
 <nav class="navbar navbar-expand-md slim" data-bs-theme="dark">
   <div class="navbar-container container-fluid">
-    <button class="navbar-toggler hidden" type="button" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-controls="dashboard-collapse" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-controls="dashboard-collapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>    
 
@@ -64,66 +82,79 @@ ul.task-list li input[type="checkbox"] {
         <div class="navbar-author">HAU AgriDat</div>
       </div>
     </div>
-</div>
+<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-saved-food-used" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#saved-food-used" data-scrolling="false" href="#saved-food-used" aria-controls="saved-food-used" aria-selected="true"><span class="nav-link-text">Saved Food Used</span></a></li><li class="nav-item" role="presentation"><a id="tab-about" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#about" data-scrolling="false" href="#about" aria-controls="about" aria-selected="false"><span class="nav-link-text">About</span></a></li></ul></div></div>
 </nav>
 </header>
-<div class="page-layout-custom quarto-dashboard-content bslib-gap-spacing html-fill-container bslib-page-fill dashboard-sidebar-container">  
+<div class="page-layout-custom quarto-dashboard-content bslib-gap-spacing html-fill-container bslib-page-fill quarto-dashboard-pages">  
 
-<div class="bslib-sidebar-layout html-fill-item sidebar-right html-fill-container" data-bslib-sidebar-open="desktop" data-bslib-sidebar-init="true" data-bslib-sidebar-border="false" data-bslib-sidebar-border-radius="false"><div class="main html-fill-container html-fill-item"><div class="sidebar-content html-fill-item html-fill-container">
-<div class="bslib-grid html-fill-item html-fill-container" style="display: grid; grid-template-columns: minmax(3em, 25fr) minmax(3em, 75fr);
+<div class="bslib-grid-item html-fill-item tab-content bslib-grid" data-layout="fill" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
-<div class="bslib-grid html-fill-item html-fill-container" style="display: grid; grid-template-rows: minmax(3em, 1fr) minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
-<div class="card valuebox cell bslib-card html-fill-container bslib-value-box bg-primary html-fill-item" data-bslib-card-init="" data-require-bs-caller="card()">
+<div id="saved-food-used" class="dashboard-page tab-pane show active html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-saved-food-used">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 25fr) minmax(3em, 75fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr) minmax(3em, 1fr) minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="card valuebox cell html-fill-item html-fill-container bslib-card bslib-value-box bg-primary" data-bslib-card-init="" data-require-bs-caller="card()">
 <div class="card-body html-fill-item html-fill-container">
 <div class="html-fill-item html-fill-container value-box-grid">
 <div class="value-box-area">
 <p class="value-box-title">
-Total Quantity (KG)
+Total Quantity of Food Saved
 </p>
 <p class="value-box-value">
-1588.415
+6549
 </p>
 </div>
 </div>
 </div>
 <script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-<div class="card valuebox cell bslib-card html-fill-container bslib-value-box bg-secondary html-fill-item" data-bslib-card-init="" data-require-bs-caller="card()">
+<div class="card valuebox cell html-fill-item html-fill-container bslib-card bslib-value-box bg-secondary" data-bslib-card-init="" data-require-bs-caller="card()">
 <div class="card-body html-fill-item html-fill-container">
 <div class="html-fill-item html-fill-container value-box-grid">
 <div class="value-box-area">
 <p class="value-box-title">
-Average Daily Quantity (KG)
+Average Daily Quantity Saved
 </p>
 <p class="value-box-value">
-28.88027
+136
 </p>
 </div>
 </div>
 </div>
 <script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div><div class="card tabset bslib-card html-fill-container html-fill-item" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card valuebox cell html-fill-item html-fill-container bslib-card bslib-value-box bg-secondary" data-bslib-card-init="" data-require-bs-caller="card()">
+<div class="card-body html-fill-item html-fill-container">
+<div class="html-fill-item html-fill-container value-box-grid">
+<div class="value-box-area">
+<p class="value-box-title">
+Total Number of New Users
+</p>
+<p class="value-box-value">
+416
+</p>
+</div>
+</div>
+</div>
+<script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div><div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header dashboard-card-no-title bslib-navs-card-title">
 
-<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-3"><li class="nav-item" role="presentation"><a href="#card-tabset-3-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Distribution count of each category" aria-selected="true" class="nav-link active">Distribution count of each category</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-3-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Total quantity per day for each category" aria-selected="false" class="nav-link">Total quantity per day for each category</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-3-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Total quantity per week for each category" aria-selected="false" class="nav-link">Total quantity per week for each category</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-3-4" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Total quantity by Tender over time" aria-selected="false" class="nav-link">Total quantity by Tender over time</a></li></ul></div>
+<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-4"><li class="nav-item" role="presentation"><a href="#card-tabset-4-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Distribution of Total Quantity by Category" aria-selected="true" class="nav-link active">Distribution of Total Quantity by Category</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-4-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Cumulative Total Quantity" aria-selected="false" class="nav-link">Cumulative Total Quantity</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-4-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="New Users Over Time (Taken Food)" aria-selected="false" class="nav-link">New Users Over Time (Taken Food)</a></li></ul></div>
 
 
 
-
-<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-3"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-3-1"><div class="card-body html-fill-item html-fill-container" data-title="Distribution count of each category">
-<div class="cell-output-display html-fill-item html-fill-container">
-<img src="FoodWasteDataDashboard_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-dashboard-img-contain">
-</div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-3-2"><div class="card-body html-fill-item html-fill-container" data-title="Total quantity per day for each category">
+<div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-4"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-4-1"><div class="card-body html-fill-item html-fill-container" data-title="Distribution of Total Quantity by Category">
 <div class="cell-output-display html-fill-item html-fill-container">
 <img src="FoodWasteDataDashboard_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-dashboard-img-contain">
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-3-3"><div class="card-body html-fill-item html-fill-container" data-title="Total quantity per week for each category">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-4-2"><div class="card-body html-fill-item html-fill-container" data-title="Cumulative Total Quantity">
 <div class="cell-output-display html-fill-item html-fill-container">
-<img src="FoodWasteDataDashboard_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-dashboard-img-contain">
+<div class="plotly html-widget html-fill-item html-fill-container" id="htmlwidget-c32e831231890fc1602c" style="width:100%;height:406px;"></div>
+<script type="application/json" data-for="htmlwidget-c32e831231890fc1602c">{"x":{"visdat":{"cb84036a96":["function () ","plotlyVisDat"]},"cur_data":"cb84036a96","attrs":{"cb84036a96":{"x":{},"y":{},"mode":"lines+markers","line":{"color":"blue"},"marker":{"color":"blue"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Cumulative Total Quantity (Taken Food)","xaxis":{"domain":[0,1],"automargin":true,"title":"Date"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Cumulative Quantity"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["2024-03-25","2024-03-26","2024-03-27","2024-04-03","2024-04-04","2024-04-05","2024-04-07","2024-04-08","2024-04-09","2024-04-10","2024-04-11","2024-04-12","2024-04-15","2024-04-16","2024-04-17","2024-04-18","2024-04-19","2024-04-20","2024-04-22","2024-04-23","2024-04-24","2024-04-25","2024-04-26","2024-04-27","2024-04-28","2024-04-29","2024-04-30","2024-05-01","2024-05-02","2024-05-03","2024-05-04","2024-05-05","2024-05-06","2024-05-07","2024-05-08","2024-05-09","2024-05-10","2024-05-11","2024-05-12","2024-05-13","2024-05-14","2024-05-15","2024-05-16","2024-05-17","2024-05-18","2024-05-19","2024-05-20","2024-05-21"],"y":[5,734,1106,1154,1172,1205,1222,1430,1555,2111,2148,2196,2198,2333,2368,2421,2515,2526,2715,2831,3668,3820,4016,4024,4037,4095,4143,4309,4422,4668,4695,4722,4792,4890,5109,5276,5360,5388,5443,5698,5791,5861,6080,6242,6290,6304,6492,6549],"mode":"lines+markers","line":{"color":"blue"},"marker":{"color":"blue","line":{"color":"rgba(31,119,180,1)"}},"type":"scatter","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
-</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-3-4"><div class="card-body html-fill-item html-fill-container" data-title="Total quantity by Tender over time">
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-4-3"><div class="card-body html-fill-item html-fill-container" data-title="New Users Over Time (Taken Food)">
 <div class="cell-output-display html-fill-item html-fill-container">
-<img src="FoodWasteDataDashboard_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-dashboard-img-contain">
+<div class="plotly html-widget html-fill-item html-fill-container" id="htmlwidget-09baaf5be7660d8ffb97" style="width:100%;height:406px;"></div>
+<script type="application/json" data-for="htmlwidget-09baaf5be7660d8ffb97">{"x":{"visdat":{"cb848c75756":["function () ","plotlyVisDat"]},"cur_data":"cb848c75756","attrs":{"cb848c75756":{"x":{},"y":{},"mode":"lines+markers","line":{"color":"orange"},"marker":{"color":"orange"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"New Users Over Time (Taken Food)","xaxis":{"domain":[0,1],"automargin":true,"title":"Date"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Cumulative New Users"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["2024-03-25","2024-03-26","2024-03-27","2024-04-03","2024-04-04","2024-04-05","2024-04-08","2024-04-09","2024-04-10","2024-04-11","2024-04-12","2024-04-16","2024-04-17","2024-04-19","2024-04-22","2024-04-23","2024-04-24","2024-04-25","2024-04-26","2024-04-29","2024-04-30","2024-05-01","2024-05-02","2024-05-03","2024-05-04","2024-05-05","2024-05-06","2024-05-07","2024-05-08","2024-05-09","2024-05-10","2024-05-12","2024-05-13","2024-05-14","2024-05-15","2024-05-16","2024-05-18","2024-05-20","2024-05-21"],"y":[1,67,88,90,91,96,117,121,146,149,154,159,163,165,192,205,230,236,249,251,256,278,286,292,296,305,313,319,328,345,352,353,368,375,378,386,405,413,416],"mode":"lines+markers","line":{"color":"orange"},"marker":{"color":"orange","line":{"color":"rgba(31,119,180,1)"}},"type":"scatter","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
@@ -132,37 +163,86 @@ Average Daily Quantity (KG)
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-</div></div><aside id="bslib-sidebar-1" class="sidebar html-fill-container html-fill-item"><div class="html-fill-container html-fill-item">
-<p>Dashboard information:</p>
-<table class="caption-top table">
-<tbody>
-<tr class="odd">
-<td><strong>Quantity:</strong></td>
-<td>Amount of food in (kg).</td>
-</tr>
-<tr class="even">
-<td><strong>User:</strong></td>
-<td>The type of user (new or Returning).</td>
-</tr>
-<tr class="odd">
-<td><strong>Category:</strong></td>
-<td>The type of food (Meat, Poultry, etc).</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden">
+</div><div id="about" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="columns" aria-labelledby="tab-about">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr) minmax(3em, 1fr) minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<p style="font-size: 20px;">
+<strong>Dashboard Information:</strong>
+</p><p style="font-size: 18px;">
+Welcome to the Food Waste Data Dashboard. This dashboard provides insights into the amount of food saved through our community fridge initiative, focusing on both taken and donated food.
+</p>
+<p style="font-size: 18px;">
+Scan our QR code to learn more about the community fridge project.
+</p>
+<img src="QR.png" style="width: 200px; height: 200px;">
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<p style="font-size: 20px;">
+<strong>Overview:</strong>
+</p><p style="font-size: 18px;">
+</p><ul>
+<li><strong>Total Quantity (Kg):</strong> The total weight of food saved, measured in kilograms.<br></li>
+<li><strong>Average Daily Quantity (Kg):</strong> The average weight of food saved per day, measured in kilograms.<br></li>
+<li><strong>New Users:</strong> The cumulative number of new users participating in the initiative.<br></li>
+<li><strong>Category:</strong> The type of food (e.g., Meat, Poultry, etc.).</li>
+</ul>
+<p></p>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+</div>
+</div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
+<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
+<div class="card-body html-fill-item html-fill-container">
+<p style="font-size: 20px;">
+<strong>Contributions:</strong>
+</p><p style="font-size: 18px;">
+We would like to thank the following contributors for their support and effort in making the community fridge initiative a success:
+</p>
+<ul style="font-size: 18px;">
+<li>
+James S and Ed H for data analysis and dashboard creation.
+</li>
+<li>
+Community volunteers for managing the fridge and ensuring smooth operations.
+</li>
+<li>
+Local donors and participants who generously contributed food items.
+</li>
+<li>
+Harper Adams University for providing the necessary resources and support.
+</li>
+</ul>
+</div>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+    <template>Expand</template>
+    <span class="bslib-full-screen-enter badge rounded-pill">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
+    </span>
+</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
+<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden html-fill-item html-fill-container">
 
 </div>
-</div></aside>
-<button class="collapse-toggle" type="button" title="Toggle sidebar" aria-expanded="true" aria-controls="bslib-sidebar-1">
-    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" class="bi bi-chevron-left collapse-icon" style="fill:currentColor;" aria-hidden="true" role="img">
-      <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
-    </svg>
-</button>
-<script data-bslib-sidebar-init="">
-bslib.Sidebar.initCollapsibleAll()
-</script>
+</div>
+</div>
+</div>
 </div>
 
 

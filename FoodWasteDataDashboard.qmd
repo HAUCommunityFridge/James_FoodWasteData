@@ -4,6 +4,7 @@ author: "HAU AgriDat"
 format: 
   dashboard:
     theme: cerulean
+orientation: columns
 ---
 
 ## Setup and Data Loading
@@ -11,6 +12,17 @@ format:
 library(tidyverse)
 library(lubridate)
 library(viridis)
+library(plotly)
+library(qrencoder)
+
+### Some form of Error here qr code comes out blury.
+# Generate the QR code with a higher resolution
+#qr <- qrencoder::qrencode("https://www.harper-adams.ac.uk/community/988/community-fridge-pilot-project/")
+
+# Save the QR code as a high-resolution PNG file
+#png("qr_code.png", width = 1000, height = 1000)
+#plot(as.raster(qr), col = c("white", "black"), asp = 1, axes = FALSE, xlab = "", ylab = "", main = "")
+#dev.off()
 
 # Load the cleaned data
 cleaned_data <- read.csv("data/cleaned_data.csv")
@@ -23,13 +35,13 @@ cleaned_data <- cleaned_data %>%
 update_category <- function(data) {
   lookup_table <- data %>%
     filter(Category != "Other") %>%
-    select(ProductId, Category) %>%
+    dplyr::select(ProductId, Category) %>%
     distinct()
   
   updated_data <- data %>%
     left_join(lookup_table, by = "ProductId", suffix = c("", "_new")) %>%
     mutate(Category = ifelse(Category == "Other" & !is.na(Category_new), Category_new, Category)) %>%
-    select(-Category_new)
+    dplyr::select(-Category_new)
   
   return(updated_data)
 }
@@ -40,134 +52,174 @@ cleaned_data <- update_category(cleaned_data)
 cleaned_data$Quantity <- as.numeric(gsub("[^0-9.]", "", cleaned_data$Quantity))
 cleaned_data$Date.Time <- as.POSIXct(cleaned_data$Date.Time, format = "%d/%m/%Y %H:%M:%S")
 
-# Calculate the total quantity in grams and kilograms
-total_quantity_grams <- sum(cleaned_data$Quantity, na.rm = TRUE)
-total_quantity_kilograms <- total_quantity_grams / 1000
+# Create a mapping of original categories to new, more readable names
+category_mapping <- c(
+  "Bakery, Bread & Baking ingredient" = "Bakery & Bread",
+  "Dairy & Dairy alternatives" = "Dairy",
+  "Dessert, Confectionery, biscuit & snacks" = "Desserts & Snacks",
+  "Dried Pasta, Rice, Noodles & Pulse" = "Pasta & Rice",
+  "Drink, Juice & Drink ingredients" = "Drinks",
+  "Fruit & Vegetables (Fresh)" = "Fruits & Vegetables",
+  "Meat, Poultry, Fish & Egg" = "Meat & Fish",
+  "Non food" = "Non-Food",
+  "Other" = "Unknown Category",
+  "Plant based products" = "Plant-Based",
+  "Ready meal, pizza, soup & Salad boxes" = "Ready Meals",
+  "Sauces, Pickles, Herbs, Tins & Bottles" = "Sauces & Herbs",
+  "Tea Coffee, Dried fruits & Nuts" = "Tea & Coffee"
+)
 
-# Calculate the average daily quantity
-unique_days <- length(unique(as.Date(cleaned_data$Date.Time)))
-average_daily_quantity <- total_quantity_kilograms / unique_days
+# Update the Category column with new names
+cleaned_data <- cleaned_data %>%
+  mutate(Category = recode(Category, !!!category_mapping))
 ```
 
-## colum {width="25%"}
+# Saved Food Used
+```{r}
+# Filter data for taken food
+filtered_data_taken <- cleaned_data %>% filter(FoodType == "Take")
+
+# Calculate the total quantity for taken food
+total_quantity_taken <- sum(filtered_data_taken$Quantity, na.rm = TRUE)
+
+# Calculate the average daily quantity for taken food
+unique_days_taken <- length(unique(as.Date(filtered_data_taken$Date.Time)))
+average_daily_quantity_taken <- total_quantity_taken / unique_days_taken
+
+# Calculate the total number of first-time users who have taken food
+total_first_time_users_taken <- sum(filtered_data_taken$Tender == "First time user")
+
+# Round the quantities to 2 decimal places
+total_quantity_taken <- round(total_quantity_taken, 2)
+average_daily_quantity_taken <- round(average_daily_quantity_taken, 0)
+```
+
+## row {width="25%"}
 
 ```{r}
 #| component: valuebox
-#| title: "Total Quantity (KG)"
+#| title: "Total Quantity of Food Saved"
 #| color: primary
-total_quantity_kilograms
+total_quantity_taken
 ```
 
 ```{r}
 #| component: valuebox
-#| title: "Average Daily Quantity (KG)"
+#| title: "Average Daily Quantity Saved"
 #| color: secondary
-average_daily_quantity
+average_daily_quantity_taken
 ```
-
 ```{r}
-#| component: select
-#| id: food_type
-#| label: "Select Food Type"
-#| choices: ["All", "Take", "Donate"]
-#| default: "All"
-food_type <- "All"
+#| component: valuebox
+#| title: "Total Number of New Users"
+#| color: secondary
+total_first_time_users_taken
 ```
 
 ## Row {.tabset}
 ```{r}
-#| title: Distribution count of each category
-filtered_data <- cleaned_data
-if (food_type != "All") {
-  filtered_data <- cleaned_data %>% filter(FoodType == food_type)
-}
-
-# Example analysis: count of each category
-category_counts <- filtered_data %>%
+#| title: Distribution of Total Quantity by Category
+# Distribution of total quantity by category for taken food
+category_totals_taken <- filtered_data_taken %>%
   group_by(Category) %>%
-  summarise(count = n())
+  summarise(Total_Quantity_kg = sum(Quantity, na.rm = TRUE) / 1000)
+
+# Identify the 5 categories with the lowest total quantities
+lowest_5_categories <- category_totals_taken %>%
+  arrange(Total_Quantity_kg) %>%
+  slice(1:5) %>%
+  pull(Category)
+
+# Recode these categories as "Unknown Category"
+filtered_data_taken <- filtered_data_taken %>%
+  mutate(Category = ifelse(Category %in% lowest_5_categories, "Unknown Category", Category))
+
+# Recreate the summary for the plot
+category_totals_taken <- filtered_data_taken %>%
+  group_by(Category) %>%
+  summarise(Total_Quantity_kg = sum(Quantity, na.rm = TRUE))
 
 # Create bar plot for category distribution
-ggplot(category_counts, aes(x = reorder(Category, -count), y = count)) +
-  geom_bar(stat = "identity", fill = viridis::viridis(length(unique(category_counts$Category))), color = "black") +
+ggplot(category_totals_taken, aes(x = reorder(Category, -Total_Quantity_kg), y = Total_Quantity_kg)) +
+  geom_bar(stat = "identity", fill = viridis::viridis(length(unique(category_totals_taken$Category))), color = "black") +
   theme_minimal() +
-  labs(title = "Distribution of Categories", x = "Category", y = "Count") +
+  labs(title = "Distribution of Total Quantity by Category (Taken Food)", x = "Category", y = "Total Quantity") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ```{r}
-#| title: Total quantity per day for each category
-daily_totals <- filtered_data %>%
-  group_by(Date = as.Date(Date.Time), Category) %>%
-  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE), .groups = 'drop')
+#| title: Cumulative Total Quantity
 
-# Create line plot for daily totals
-ggplot(daily_totals, aes(x = Date, y = Total_Quantity, color = Category, group = Category)) +
-  geom_line(size = 1) +
-  geom_point(size = 2) +
-  theme_minimal() +
-  labs(title = "Daily Total Quantity by Category", x = "Date", y = "Total Quantity") +
-  theme(
-    legend.position = "bottom",
-    legend.title = element_blank(),
-    panel.grid.major = element_line(color = "grey80"),
-    panel.grid.minor = element_blank()
-  ) +
-  scale_color_viridis_d()
+# Total quantity per day for taken food
+daily_totals_taken <- filtered_data_taken %>%
+  group_by(Date = as.Date(Date.Time)) %>%
+  summarise(Daily_Quantity = sum(Quantity, na.rm = TRUE), .groups = 'drop') %>%
+  arrange(Date) %>%
+  mutate(Cumulative_Quantity_kg = cumsum(Daily_Quantity))
+
+# Create a plotly line plot for daily cumulative totals
+plot_ly(daily_totals_taken, x = ~Date, y = ~Cumulative_Quantity_kg, type = 'scatter', mode = 'lines+markers',
+        line = list(color = 'blue'), marker = list(color = 'blue')) %>%
+  layout(title = 'Cumulative Total Quantity (Taken Food)',
+         xaxis = list(title = 'Date'),
+         yaxis = list(title = 'Cumulative Quantity'))
 ```
 
 ```{r}
-#| title: Total quantity per week for each category
-# Aggregate data to get total quantity per week for each category
-weekly_totals <- filtered_data %>%
-  group_by(Week = floor_date(Date.Time, "week"), Category) %>%
-  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE), .groups = 'drop')
+#| title: New Users Over Time (Taken Food)
 
-# Create line plot for weekly totals
-ggplot(weekly_totals, aes(x = Week, y = Total_Quantity, color = Category, group = Category)) +
-  geom_line(size = 1) +
-  geom_point(size = 2) +
-  theme_minimal() +
-  labs(title = "Weekly Total Quantity by Category", x = "Week", y = "Total Quantity") +
-  theme(
-    legend.position = "bottom",
-    legend.title = element_blank(),
-    panel.grid.major = element_line(color = "grey80"),
-    panel.grid.minor = element_blank()
-  ) +
-  scale_color_viridis_d()
+# Count new users over time for taken food
+new_users_daily_taken <- filtered_data_taken %>%
+  filter(Tender == "First time user") %>%
+  group_by(Date = as.Date(Date.Time)) %>%
+  summarise(New_Users = n(), .groups = 'drop') %>%
+  arrange(Date) %>%
+  mutate(Cumulative_New_Users = cumsum(New_Users))
+
+# Create interactive Plotly line plot for new users over time
+plot_ly(new_users_daily_taken, x = ~Date, y = ~Cumulative_New_Users, type = 'scatter', mode = 'lines+markers',
+        line = list(color = 'orange'), marker = list(color = 'orange')) %>%
+  layout(title = 'New Users Over Time (Taken Food)',
+         xaxis = list(title = 'Date'),
+         yaxis = list(title = 'Cumulative New Users'))
 ```
 
-```{r}
-#| title: Total quantity by Tender over time
-# Aggregate data to get total quantity by Tender (Returning user vs First time user) over time
-tender_daily_totals <- filtered_data %>%
-  group_by(Date = as.Date(Date.Time), Tender) %>%
-  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE), .groups = 'drop')
+# About
+## Dashboard Information
+<p style="font-size: 20px;">
+**Dashboard Information:**
+<p style="font-size: 18px;">
+Welcome to the Food Waste Data Dashboard. This dashboard provides insights into the amount of food saved through our community fridge initiative, focusing on both taken and donated food.
+</p>
 
-# Create line plot for tender daily totals
-ggplot(tender_daily_totals, aes(x = Date, y = Total_Quantity, color = Tender, group = Tender)) +
-  geom_line(size = 1) +
-  geom_point(size = 2) +
-  theme_minimal() +
-  labs(title = "Daily Total Quantity by Tender Type", x = "Date", y = "Total Quantity") +
-  theme(
-    legend.position = "bottom",
-    legend.title = element_blank(),
-    panel.grid.major = element_line(color = "grey80"),
-    panel.grid.minor = element_blank()
-  ) +
-  scale_color_manual(values = c("Returning user" = "darkblue", "First time user" = "orange"))
-```
+<p style="font-size: 18px;">
+Scan our QR code to learn more about the community fridge project.
+</p>
+<img src="QR.png" style="width: 200px; height: 200px;">
 
-#  {.sidebar}
+## Key Metrics
 
-Dashboard information:
+### Overview
+<p style="font-size: 20px;">
+**Overview:**
+<p style="font-size: 18px;">
+- **Total Quantity (Kg):** The total weight of food saved, measured in kilograms.<br>
+- **Average Daily Quantity (Kg):** The average weight of food saved per day, measured in kilograms.<br>
+- **New Users:** The cumulative number of new users participating in the initiative.<br>
+- **Category:** The type of food (e.g., Meat, Poultry, etc.).
+</p>
 
-|               |                                        |
-|---------------|----------------------------------------|
-| **Quantity:** | Amount of food in (kg).                |
-| **User:**     | The type of user (new or Returning).   |
-| **Category:** | The type of food (Meat, Poultry, etc). |
+## Contributions
+<p style="font-size: 20px;">
+**Contributions:**
+<p style="font-size: 18px;">
+We would like to thank the following contributors for their support and effort in making the community fridge initiative a success:
+</p>
 
-------------------------------------------------------------------------
+<ul style="font-size: 18px;">
+  <li>James S and Ed H for data analysis and dashboard creation.</li>
+  <li>Community volunteers for managing the fridge and ensuring smooth operations.</li>
+  <li>Local donors and participants who generously contributed food items.</li>
+  <li>Harper Adams University for providing the necessary resources and support.</li>
+</ul>
+
