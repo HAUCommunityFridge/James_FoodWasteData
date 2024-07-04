@@ -230,3 +230,7 @@ Scan our QR code to learn more about the community fridge project.
 <p style="font-size: 18px;">
 https://github.com/Jamess200?tab=repositories
 </p>
+**Link To Org Github Repos:**
+<p style="font-size: 18px;">
+https://github.com/HAUCommunityFridge
+</p>
