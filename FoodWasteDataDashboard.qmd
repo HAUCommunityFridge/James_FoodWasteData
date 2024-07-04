@@ -12,9 +12,12 @@ orientation: columns
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(lubridate)
-library(viridis)
 library(plotly)
 library(qrencoder)
+library(rvest)
+library(rlist)
+library(dplyr)
+library(XML)
 
 ### Some form of Error here qr code comes out blury.
 # Generate the QR code with a higher resolution
@@ -24,6 +27,21 @@ library(qrencoder)
 #png("qr_code.png", width = 1000, height = 1000)
 #plot(as.raster(qr), col = c("white", "black"), asp = 1, axes = FALSE, xlab = "", ylab = "", main = "")
 #dev.off()
+
+# Load data
+table <- readHTMLTable("data/ePOS system report.html")
+table <- list.clean(table, fun = is.null, recursive = FALSE)
+table <- data.frame(table[["NULL"]])
+table <- table[-nrow(table),]
+
+# table[!grepl(" ",table$Category), ] <- "Other"
+
+# Data Cleaning
+table$Category <- as.character(table$Category)
+table[!grepl(" ", table$Category), "Category"] <- "Other"
+
+# Save the cleaned data to a CSV file for later use
+write.csv(table, "data/cleaned_data.csv", row.names = FALSE)
 
 # Load the cleaned data
 cleaned_data <- read.csv("data/cleaned_data.csv")
