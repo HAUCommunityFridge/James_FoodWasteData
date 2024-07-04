@@ -122,11 +122,11 @@ total_first_time_users_taken
 # Distribution Of Total Number Of Items By Category For Food Saved
 category_totals_taken <- filtered_data_taken %>%
   group_by(Category) %>%
-  summarise(Total_Quantity_kg = sum(Quantity, na.rm = TRUE) / 1000)
+  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE))
 
 # Identify the 5 categories with the lowest total quantities
 lowest_5_categories <- category_totals_taken %>%
-  arrange(Total_Quantity_kg) %>%
+  arrange(Total_Quantity) %>%
   slice(1:5) %>%
   pull(Category)
 
@@ -137,13 +137,16 @@ filtered_data_taken <- filtered_data_taken %>%
 # Recreate the summary for the plot
 category_totals_taken <- filtered_data_taken %>%
   group_by(Category) %>%
-  summarise(Total_Quantity_kg = sum(Quantity, na.rm = TRUE))
+  summarise(Total_Quantity = sum(Quantity, na.rm = TRUE))
+
+# Define the blue color for the bars
+blue_color <- "#007BFF"
 
 # Create bar plot for category distribution
-ggplot(category_totals_taken, aes(x = reorder(Category, -Total_Quantity_kg), y = Total_Quantity_kg)) +
-  geom_bar(stat = "identity", fill = viridis::viridis(length(unique(category_totals_taken$Category))), color = "black") +
+ggplot(category_totals_taken, aes(x = reorder(Category, -Total_Quantity), y = Total_Quantity)) +
+  geom_bar(stat = "identity", fill = blue_color, color = "black") +
   theme_minimal() +
-  labs(title = "Distribution Of Total Nmuber Of Food Items By Category Saved", x = "Category", y = "Total Nmuber Of Items") +
+  labs(title = "Distribution Of Total Number Of Food Items By Category Saved", x = "Category", y = "Total Number Of Items") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
@@ -160,7 +163,7 @@ daily_totals_taken <- filtered_data_taken %>%
 # Create a plotly line plot for daily cumulative totals
 plot_ly(daily_totals_taken, x = ~Date, y = ~Cumulative_Quantity_kg, type = 'scatter', mode = 'lines+markers',
         line = list(color = 'blue'), marker = list(color = 'blue')) %>%
-  layout(title = 'Cumulative Total Number Of Food Items Saved Over Time)',
+  layout(title = 'Cumulative Total Number Of Food Items Saved Over Time',
          xaxis = list(title = 'Date'),
          yaxis = list(title = 'Cumulative Quantity'))
 ```
@@ -178,8 +181,8 @@ new_users_daily_taken <- filtered_data_taken %>%
 
 # Create interactive Plotly line plot for new users over time
 plot_ly(new_users_daily_taken, x = ~Date, y = ~Cumulative_New_Users, type = 'scatter', mode = 'lines+markers',
-        line = list(color = 'orange'), marker = list(color = 'orange')) %>%
-  layout(title = 'Unique Users Over Time For Saved Food)',
+        line = list(color = 'orange'), marker = list(symbol = 'square', color = 'orange')) %>%
+  layout(title = 'Unique Users Over Time For Saved Food',
          xaxis = list(title = 'Date'),
          yaxis = list(title = 'Cumulative New Users'))
 ```
@@ -189,7 +192,7 @@ plot_ly(new_users_daily_taken, x = ~Date, y = ~Cumulative_New_Users, type = 'sca
 <p style="font-size: 20px;">
 **Dashboard Information:**
 <p style="font-size: 18px;">
-Welcome to the Food Waste Data Dashboard. This dashboard provides insights into the amount of food saved through our community fridge initiative, focusing on both taken and donated food.
+Welcome to the Food Waste Data Dashboard. This dashboard provides insights into the amount of food saved through our community fridge initiative, focusing on the food used from our comuity fridge.
 </p>
 
 <p style="font-size: 18px;">
@@ -203,9 +206,15 @@ Scan our QR code to learn more about the community fridge project.
 <p style="font-size: 20px;">
 **Overview:**
 <p style="font-size: 18px;">
-- **Total Quantity (Kg):** The total weight of food saved, measured in kilograms.<br>
-- **Average Daily Quantity (Kg):** The average weight of food saved per day, measured in kilograms.<br>
+- **Items:** The count of individual food products available or taken from the community fridge.<br>  
 - **Unique Users:** The cumulative number of new users participating in the initiative.<br>
 - **Category:** The type of food (e.g., Meat, Poultry, etc.).
 - **Saved:** The food taken from the community fridge saving it from being discarded or wasted out.<br>
+</p>
+
+### Github
+<p style="font-size: 20px;">
+**Link To My Github Repos:**
+<p style="font-size: 18px;">
+https://github.com/Jamess200?tab=repositories
 </p>
