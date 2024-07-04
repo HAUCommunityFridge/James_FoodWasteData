@@ -98,28 +98,28 @@ average_daily_quantity_taken <- round(average_daily_quantity_taken, 0)
 
 ```{r}
 #| component: valuebox
-#| title: "Total Quantity of Food Saved"
+#| title: "Total Number Of Food Items Saved"
 #| color: primary
 total_quantity_taken
 ```
 
 ```{r}
 #| component: valuebox
-#| title: "Average Daily Quantity Saved"
+#| title: "Daily Average Number Of Food Items Saved"
 #| color: secondary
 average_daily_quantity_taken
 ```
 ```{r}
 #| component: valuebox
-#| title: "Total Number of New Users"
+#| title: "Cumulative Number Of Unique Users"
 #| color: secondary
 total_first_time_users_taken
 ```
 
 ## Row {.tabset}
 ```{r}
-#| title: Distribution of Total Quantity by Category
-# Distribution of total quantity by category for taken food
+#| title: Distribution Of Food Items By Category
+# Distribution Of Total Number Of Items By Category For Food Saved
 category_totals_taken <- filtered_data_taken %>%
   group_by(Category) %>%
   summarise(Total_Quantity_kg = sum(Quantity, na.rm = TRUE) / 1000)
@@ -143,12 +143,12 @@ category_totals_taken <- filtered_data_taken %>%
 ggplot(category_totals_taken, aes(x = reorder(Category, -Total_Quantity_kg), y = Total_Quantity_kg)) +
   geom_bar(stat = "identity", fill = viridis::viridis(length(unique(category_totals_taken$Category))), color = "black") +
   theme_minimal() +
-  labs(title = "Distribution of Total Quantity by Category (Taken Food)", x = "Category", y = "Total Quantity") +
+  labs(title = "Distribution Of Total Nmuber Of Food Items By Category Saved", x = "Category", y = "Total Nmuber Of Items") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ```{r}
-#| title: Cumulative Total Quantity
+#| title: Cumulative Number Of Food Items
 
 # Total quantity per day for taken food
 daily_totals_taken <- filtered_data_taken %>%
@@ -160,13 +160,13 @@ daily_totals_taken <- filtered_data_taken %>%
 # Create a plotly line plot for daily cumulative totals
 plot_ly(daily_totals_taken, x = ~Date, y = ~Cumulative_Quantity_kg, type = 'scatter', mode = 'lines+markers',
         line = list(color = 'blue'), marker = list(color = 'blue')) %>%
-  layout(title = 'Cumulative Total Quantity (Taken Food)',
+  layout(title = 'Cumulative Total Number Of Food Items Saved Over Time)',
          xaxis = list(title = 'Date'),
          yaxis = list(title = 'Cumulative Quantity'))
 ```
 
 ```{r}
-#| title: New Users Over Time (Taken Food)
+#| title: Unique Users Over Time
 
 # Count new users over time for taken food
 new_users_daily_taken <- filtered_data_taken %>%
@@ -179,7 +179,7 @@ new_users_daily_taken <- filtered_data_taken %>%
 # Create interactive Plotly line plot for new users over time
 plot_ly(new_users_daily_taken, x = ~Date, y = ~Cumulative_New_Users, type = 'scatter', mode = 'lines+markers',
         line = list(color = 'orange'), marker = list(color = 'orange')) %>%
-  layout(title = 'New Users Over Time (Taken Food)',
+  layout(title = 'Unique Users Over Time For Saved Food)',
          xaxis = list(title = 'Date'),
          yaxis = list(title = 'Cumulative New Users'))
 ```
@@ -205,21 +205,7 @@ Scan our QR code to learn more about the community fridge project.
 <p style="font-size: 18px;">
 - **Total Quantity (Kg):** The total weight of food saved, measured in kilograms.<br>
 - **Average Daily Quantity (Kg):** The average weight of food saved per day, measured in kilograms.<br>
-- **New Users:** The cumulative number of new users participating in the initiative.<br>
+- **Unique Users:** The cumulative number of new users participating in the initiative.<br>
 - **Category:** The type of food (e.g., Meat, Poultry, etc.).
+- **Saved:** The food taken from the community fridge saving it from being discarded or wasted out.<br>
 </p>
-
-## Contributions
-<p style="font-size: 20px;">
-**Contributions:**
-<p style="font-size: 18px;">
-We would like to thank the following contributors for their support and effort in making the community fridge initiative a success:
-</p>
-
-<ul style="font-size: 18px;">
-  <li>James S and Ed H for data analysis and dashboard creation.</li>
-  <li>Community volunteers for managing the fridge and ensuring smooth operations.</li>
-  <li>Local donors and participants who generously contributed food items.</li>
-  <li>Harper Adams University for providing the necessary resources and support.</li>
-</ul>
-
