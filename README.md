@@ -321,9 +321,10 @@ Welcome to the Food Waste Data Dashboard. This dashboard provides insights into 
 Scan our QR code to learn more about the community fridge project.
 </p>
 <img src="QR.png" style="width: 200px; height: 200px;">
+```
 
+```{r}
 ## Key Metrics
-
 ### Overview
 <p style="font-size: 20px;">
 **Overview:**
@@ -333,7 +334,9 @@ Scan our QR code to learn more about the community fridge project.
 - **Category:** The type of food (e.g., Meat, Poultry, etc.).<br>
 - **Saved:** The food taken from the community fridge saving it from being discarded or wasted out.<br>
 </p>
+```
 
+```{r}
 ### Github
 <p style="font-size: 20px;">
 **Link To My Github Repos:**
@@ -345,18 +348,3 @@ https://github.com/Jamess200?tab=repositories
 https://github.com/HAUCommunityFridge
 </p>
 ```
-
-## Dashboard Metrics
-
-- **Items:** The count of individual food products available or taken from the community fridge.
-- **Unique Users:** The cumulative number of new users participating in the initiative.
-- **Category:** The type of food (e.g., Meat, Poultry, etc.).
-- **Saved:** The food taken from the community fridge, saving it from being discarded or wasted.
-
-## Github Links
-
-- **Link To My Github Repos:**
-  [https://github.com/Jamess200?tab=repositories](https://github.com/Jamess200?tab=repositories)
-
-- **Link To Org Github Repos:**
-  [https://github.com/HAUCommunityFridge](https://github.com/HAUCommunityFridge)
