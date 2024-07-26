@@ -1,4 +1,9 @@
-# Community Fridge Food Waste Data Dashboard
+<div align="center">
+  <h1>Community Fridge Food Waste Data Dashboard</h1>
+  <p>This project creates a Data Dashboard to visualise the food waste saved through the community fridge initiative.</p>
+  <p><img src="Files/img/Fridge_readme.png" alt="Food Waste Dashboard Banner" style="border-radius: 50%; width: 150px; height: 150px; object-fit: cover;"></p>
+</div>
+
 [Check out our Dashboard](https://haucommunityfridge.github.io/James_FoodWasteData/FoodWasteDataDashboard.html)
 
 ## Description
