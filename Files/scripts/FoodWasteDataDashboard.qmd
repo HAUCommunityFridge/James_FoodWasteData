@@ -1,82 +1,3 @@
-<div align="center">
-  <h1>Community Fridge Food Waste Data Dashboard</h1>
-  <p>This project creates a Data Dashboard to visualise the food waste saved through the community fridge initiative.</p>
-  <p><img src="Files/img/Fridge_readme.png" alt="Food Waste Dashboard Banner" style="border-radius: 50%; width: 150px; height: 150px; object-fit: cover;"></p>
-</div>
-
-[Check out our Dashboard](https://haucommunityfridge.github.io/James_FoodWasteData/FoodWasteDataDashboard.html)
-
-## Description
-The Community Fridge Food Waste Data Dashboard visualises the magnitude of food saved through the community fridge initiative. It provides insights into user interactions and food distribution patterns, helping to understand the impact and efficiency of the community fridge project.
-
-## Table of Contents
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [Dashboard Metrics](#dashboard-metrics)
-- [Github Links](#github-links)
-- [Script Details](#script-details)
-
-## Usage
-To create the dashboard:
-
-1. **Clone the Repository**:
-   - Clone this repository to your local machine using:
-     ```bash
-     git clone https://github.com/HAUCommunityFridge/James_FoodWasteData.git
-     ```
-
-2. **Load the Data**:
-   - Ensure your data is in the correct format and placed in the data directory. The data should be in an HTML file named ePOS system report.html.
-
-3. **Run the Script**:
-   - Open RStudio or any R environment.
-   - Open the script file FoodWasteDataDashboard.qmd.
-   - Source the script to load, clean, and visualise the data:
-   ```{r}
-   source("FoodWasteDataDashboard.qmd")
-   ```
-
-4. **View the Dashboard**:
-   - The dashboard will be generated and can be viewed in your browser.
-
-### Configuration
-
-1. **Ensure Your Data is Correct**:
-   - Make sure your data is in the correct format (HTML) and located in the data directory.
-
-2. **Update the Script Configuration**:
-   - Open the FoodWasteDataDashboard.qmd file in a text editor or RStudio.
-   - Ensure the path to your data file is correct. The script reads from data/ePOS system report.html.
-
-3. **Run the Script**:
-   - Open your R environment and source the script by typing:
-   ```{r}
-   source("FoodWasteDataDashboard.qmd")
-   ```
-
-4. **Check the Output**:
-   - The script will process the data and generate visualizations in the form of an interactive dashboard.
-
-## Dashboard Metrics
-
-- **Items:** The count of individual food products available or taken from the community fridge.
-- **Unique Users:** The cumulative number of new users participating in the initiative.
-- **Category:** The type of food (e.g., Meat, Poultry, etc.).
-- **Saved:** The food taken from the community fridge, saving it from being discarded or wasted.
-
-## Github Links
-
-- **Link To My Github Repos:**
-  [https://github.com/Jamess200?tab=repositories](https://github.com/Jamess200?tab=repositories)
-
-- **Link To Org Github Repos:**
-  [https://github.com/HAUCommunityFridge](https://github.com/HAUCommunityFridge)
-
-## Script Details
-
-The script performs the following steps to create the dashboard:
-
-```yaml
 ---
 title: "Community Fridge Food Waste Data Dashboard"
 logo: "FoodWasteDataDashboard_files/Agridat_logo/nl_agridat_hex_tp.png"
@@ -86,12 +7,9 @@ format:
     theme: cerulean
 orientation: columns
 ---
-```
 
 ## Setup and Data Loading
-
-### 1. **Import Required Libraries**:
-```{r}
+```{r setup, include=FALSE}
 library(tidyverse)
 library(lubridate)
 library(plotly)
@@ -100,10 +18,7 @@ library(rvest)
 library(rlist)
 library(dplyr)
 library(XML)
-```
 
-2. **Generate the QR Code (Optional)**:
-```{r}
 ### Some form of Error here qr code comes out blury.
 # Generate the QR code with a higher resolution
 #qr <- qrencoder::qrencode("https://www.harper-adams.ac.uk/community/988/community-fridge-pilot-project/")
@@ -112,39 +27,29 @@ library(XML)
 #png("qr_code.png", width = 1000, height = 1000)
 #plot(as.raster(qr), col = c("white", "black"), asp = 1, axes = FALSE, xlab = "", ylab = "", main = "")
 #dev.off()
-```
 
-### 3. **Load the Data**:
-```{r}
 # Load data
 table <- readHTMLTable("data/ePOS system report.html")
 table <- list.clean(table, fun = is.null, recursive = FALSE)
 table <- data.frame(table[["NULL"]])
 table <- table[-nrow(table),]
-```
 
-### 4. **Data Cleaning**:
-```{r}
+# table[!grepl(" ",table$Category), ] <- "Other"
+
 # Data Cleaning
 table$Category <- as.character(table$Category)
 table[!grepl(" ", table$Category), "Category"] <- "Other"
 
 # Save the cleaned data to a CSV file for later use
 write.csv(table, "data/cleaned_data.csv", row.names = FALSE)
-```
 
-### 5. **Load the Cleaned Data**:
-```{r}
 # Load the cleaned data
 cleaned_data <- read.csv("data/cleaned_data.csv")
 
 # Add a column to identify whether the food is taken or donated
 cleaned_data <- cleaned_data %>%
   mutate(FoodType = ifelse(grepl("\\(Take\\)", Product), "Take", "Donate"))
-```
 
-### 6. **Update "Other" Categories Based on ProductID**:
-```{r}
 # Function to update "Other" categories based on ProductID
 update_category <- function(data) {
   lookup_table <- data %>%
@@ -161,17 +66,11 @@ update_category <- function(data) {
 }
 
 cleaned_data <- update_category(cleaned_data)
-```
 
-### 7. **Convert Data Types**:
-```{r}
 # Convert Quantity to numeric and Date.Time to Date type
 cleaned_data$Quantity <- as.numeric(gsub("[^0-9.]", "", cleaned_data$Quantity))
 cleaned_data$Date.Time <- as.POSIXct(cleaned_data$Date.Time, format = "%d/%m/%Y %H:%M:%S")
-```
 
-### 8. **Map Original Categories to New Names**:
-```{r}
 # Create a mapping of original categories to new, more readable names
 category_mapping <- c(
   "Bakery, Bread & Baking ingredient" = "Bakery & Bread",
@@ -194,7 +93,7 @@ cleaned_data <- cleaned_data %>%
   mutate(Category = recode(Category, !!!category_mapping))
 ```
 
-### 9. **Saved Food Used**:
+# Saved Food Used
 ```{r}
 # Filter data for taken food
 filtered_data_taken <- cleaned_data %>% filter(FoodType == "Take")
@@ -214,7 +113,8 @@ total_quantity_taken <- round(total_quantity_taken, 2)
 average_daily_quantity_taken <- round(average_daily_quantity_taken, 0)
 ```
 
-### 10. **Value Boxes**:
+## row {width="25%"}
+
 ```{r}
 #| component: valuebox
 #| title: "Total Number Of Food Items Saved"
@@ -236,8 +136,9 @@ average_daily_quantity_taken
 total_first_time_users_taken
 ```
 
-### 11. **Distribution Of Food Items By Category**:
+## Row {.tabset}
 ```{r}
+#| title: Distribution Of Food Items By Category
 # Distribution Of Total Number Of Items By Category For Food Saved
 category_totals_taken <- filtered_data_taken %>%
   group_by(Category) %>%
@@ -268,10 +169,12 @@ plot_ly(category_totals_taken, x = ~reorder(Category, -Total_Quantity), y = ~Tot
     plot_bgcolor = 'white',
     paper_bgcolor = 'white'
   )
+
 ```
 
-### 12. **Cumulative Number Of Food Items**:
 ```{r}
+#| title: Cumulative Number Of Food Items
+
 # Total quantity per day for taken food
 daily_totals_taken <- filtered_data_taken %>%
   group_by(Date = as.Date(Date.Time)) %>%
@@ -291,8 +194,9 @@ plot_ly(daily_totals_taken, x = ~Date, y = ~Cumulative_Quantity, type = 'scatter
   )
 ```
 
-### 13. **Unique Users Over Time**:
 ```{r}
+#| title: Unique Users Over Time
+
 # Count new users over time for taken food
 new_users_daily_taken <- filtered_data_taken %>%
   filter(Tender == "First time user") %>%
@@ -313,8 +217,7 @@ plot_ly(new_users_daily_taken, x = ~Date, y = ~Cumulative_New_Users, type = 'sca
   )
 ```
 
-### 14. **About**:
-```{r}
+# About
 ## Dashboard Information
 <p style="font-size: 20px;">
 **Dashboard Information:**
@@ -326,10 +229,9 @@ Welcome to the Food Waste Data Dashboard. This dashboard provides insights into 
 Scan our QR code to learn more about the community fridge project.
 </p>
 <img src="QR.png" style="width: 200px; height: 200px;">
-```
 
-```{r}
 ## Key Metrics
+
 ### Overview
 <p style="font-size: 20px;">
 **Overview:**
@@ -339,9 +241,7 @@ Scan our QR code to learn more about the community fridge project.
 - **Category:** The type of food (e.g., Meat, Poultry, etc.).<br>
 - **Saved:** The food taken from the community fridge saving it from being discarded or wasted out.<br>
 </p>
-```
 
-```{r}
 ### Github
 <p style="font-size: 20px;">
 **Link To My Github Repos:**
@@ -352,4 +252,3 @@ https://github.com/Jamess200?tab=repositories
 <p style="font-size: 18px;">
 https://github.com/HAUCommunityFridge
 </p>
-```
